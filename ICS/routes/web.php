@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.useStock');
+    return view('welcome');
 });
+
+Route::resource('inventory', 'InventoryController');

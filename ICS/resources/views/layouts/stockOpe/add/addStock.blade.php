@@ -8,15 +8,9 @@
     <h2>景品入庫</h2>
 
     <!-- 景品検索、ソート用のデータ入力する場所 -->
-    <label for="search">名前検索：</label><input class="sort" name="search" type="text" />
-    <select>
-        <option>カテゴリ１</option>
-        <option>カテゴリ２</option>
-        <option>カテゴリ３</option>
-        <option>カテゴリ４</option>
-    </select>
+    @component('components.orderForm');
 
-    <!-- < -->
+    <!-- 景品選択-->
     <form method="post" action="#">
         <table>
             <tr>

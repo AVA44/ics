@@ -5,7 +5,7 @@
 <title>お菓子の在庫/@yield('title')</title>
 <!-- <link href="/css/star/layout.css" rel="stylesheet"> -->
 @yield('pageCss')
-<script src="{{ mix('js/test.js') }}"></script>
+<!-- <script src="{{ mix('js/ajax.js') }}"></script> -->
 </head>
 <body>
 
