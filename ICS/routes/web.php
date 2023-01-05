@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('seed');
 });
 
 Route::resource('inventory', 'InventoryController');
+Route::post('/ajax', 'InventoryController@ajax');

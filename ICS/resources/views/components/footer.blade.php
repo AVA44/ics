@@ -1,3 +1,1 @@
-@section('footer');
-    Copyright @ 2022 Seiya Ishii Engineer.
-@endsection;
+Copyright @ 2022 Seiya Ishii Engineer.

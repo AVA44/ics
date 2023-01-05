@@ -3,9 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Inventory;
+use App\Stock;
 
 class InventoryController extends Controller
 {
+    public function ajax(Request $request) {
+        // 検索データ取得
+        if (($orderName = $request->name_search) && ($orderCategory = $request->cate_search)) {
+            $orderData = Inventory::
+                with('stocks')
+                ->where([
+                    ['name', '=', $orderName],
+                    ['category_name', '=', $orderCategory],
+                ])
+                ->get();
+
+        } elseif ($orderName = $request->name_search) {
+            $orderData = Inventory::with('stocks')->whereName($orderName)->get();
+
+        } elseif ($orderCategory = $request->cate_search) {
+            $orderData = Inventory::with('stocks')->whereCategory_name($orderCategory)->get();
+
+        } else {
+            $orderData = Inventory::with('stocks')->get();
+        }
+
+        // データのトリミング、配列に格納
+        $i = 0;
+        foreach ($orderData as $orderDatum) {
+            // Inventoryデータ格納
+            $orderInventoryData[] = $orderDatum;
+            // Stockデータから最も早いexpired_atを取得して格納
+            $expired_at = array();
+            foreach ($orderDatum['stocks'] as $stocksData) {
+                $expired_at[$stocksData['limited_at']] = $stocksData['expired_at'];
+            }
+            $orderInventoryData[$i]['expired_at'] = min($expired_at);
+            $orderInventoryData[$i]['limited_at'] = array_search($orderInventoryData[$i]['expired_at'], $expired_at);
+            unset($orderDatum['stocks']);
+
+            $i++;
+        }
+
+         return $orderInventoryData;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +56,23 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        return view('layouts.inventoryOpe.index');
+
+        $inventories = Inventory::all();
+
+        //各景品の一番早いexpired_atを取得
+        $i = 0;
+        foreach($inventories as $inventory) {
+
+            $stocks = Stock::where('inventory_id', '=', $inventory->id)->get();
+            foreach ($stocks as $stock) {
+                $value[] = $stock->expired_at;
+            }
+            $inventories[$i]['expired_at'] = min($value);
+            $value = array();
+            $i++;
+        }
+
+        return view('layouts.inventoryOpe.index', compact('inventories'));
     }
 
     /**

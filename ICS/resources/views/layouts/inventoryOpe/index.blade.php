@@ -8,14 +8,12 @@
     <h2 id="index_top">お菓子在庫一覧</h3>
 
     <!-- 景品検索・ソート -->
-    <div id="order_froms">
-        <form class="search"></form>
-        <form class="sort"></form>
-    </div>
+    @component('components.orderForm', [ 'inventories' => $inventories])
+    @endcomponent
 
     <!-- 景品一覧 -->
     <div id="inventories">
-        <table class="inventories_table">
+        <table class="inventories_table" border="1">
             <tr>
                 <th>景品名</th>
                 <th>カテゴリ</th>
@@ -24,14 +22,29 @@
                 <th>使用期限</th>
                 <th>残り日数</th>
             </tr>
-            <tr>
-                <td>name</td>
-                <td>category</td>
-                <td>unit_price</td>
-                <td>expired_at</td>
-                <td>limited_at</td>
-                <td>limit_count</td>
-            </tr>
+
+            @foreach ($inventories as $inventory)
+                @php
+                    // 使用期限　賞味期限の４５日前
+                    $limited_at = date('Y-m-d', strtotime("$inventory->expired_at -45 day"));
+
+                    // 使用期限までの日数
+                    $limit_count = (strtotime($limited_at) - strtotime(date('Y-m-d'))) / 86400;
+                @endphp
+
+                <tr class="tableData">
+                    <td><a href="inventory/inventory->id">{{ $inventory->name }}</a></td>
+                    <td>{{ $inventory->category_name }}</td>
+                    <td>{{ $inventory->unit_price }}</td>
+                    <td>{{ $inventory->expired_at }}</td>
+                    <td>{{ $limited_at }}</td>
+                    <td>{{ $limit_count }}</td>
+                </tr>
+            @endforeach
         </table>
     </div>
+    <script>
+        // let table_data = document.getElementsByClassName('table-data');
+        // console.log(table_data);
+    </script>
 @endsection
