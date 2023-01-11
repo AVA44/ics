@@ -19,7 +19,7 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '20000',
                 'unit_price' => '2000',
                 'lank' => 'A',
-                'taste_flag' => '0',
+
                 'image_url' => '10101010',
             ],
             [
@@ -29,7 +29,7 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '40000',
                 'unit_price' => '2000',
                 'lank' => 'A',
-                'taste_flag' => '1',
+
                 'image_url' => '',
             ],
             [
@@ -39,7 +39,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '60000',
                 'unit_price' => '2000',
                 'lank' => 'A',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -49,7 +48,7 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '80000',
                 'unit_price' => '2000',
                 'lank' => 'A',
-                'taste_flag' => '1',
+
                 'image_url' => '',
             ],
             [
@@ -59,7 +58,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '100000',
                 'unit_price' => '2000',
                 'lank' => 'A',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -69,7 +67,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '20000',
                 'unit_price' => '333',
                 'lank' => 'E',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -79,7 +76,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '40000',
                 'unit_price' => '571',
                 'lank' => 'D',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -89,7 +85,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '60000',
                 'unit_price' => '750',
                 'lank' => 'B',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -99,7 +94,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '80000',
                 'unit_price' => '888',
                 'lank' => 'A',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -109,7 +103,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '100000',
                 'unit_price' => '1000',
                 'lank' => 'A',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -119,7 +112,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '20000',
                 'unit_price' => '181',
                 'lank' => 'F',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -129,7 +121,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '40000',
                 'unit_price' => '333',
                 'lank' => 'E',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -139,7 +130,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '60000',
                 'unit_price' => '461',
                 'lank' => 'D',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -149,7 +139,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '80000',
                 'unit_price' => '571',
                 'lank' => 'D',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -159,7 +148,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '100000',
                 'unit_price' => '666',
                 'lank' => 'C',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -169,7 +157,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '20000',
                 'unit_price' => '125',
                 'lank' => 'F',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -179,7 +166,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '40000',
                 'unit_price' => '235',
                 'lank' => 'F',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -189,7 +175,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '60000',
                 'unit_price' => '333',
                 'lank' => 'E',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
             [
@@ -199,7 +184,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '80000',
                 'unit_price' => '421',
                 'lank' => 'D',
-                'taste_flag' => '0',
                 'image_url' => '10101010',
             ],
             [
@@ -209,7 +193,6 @@ class InventoriesSeeder extends Seeder
                 'box_price' => '100000',
                 'unit_price' => '500',
                 'lank' => 'D',
-                'taste_flag' => '1',
                 'image_url' => '',
             ],
         ]);

@@ -8,6 +8,11 @@ use App\Stock;
 
 class InventoryController extends Controller
 {
+
+    ////////////////////////////////
+    // viewから呼び出して使うやつ
+    ////////////////////////////////
+
     public function ajax(Request $request) {
         // 検索データ取得
         if (($orderName = $request->name_search) && ($orderCategory = $request->cate_search)) {
@@ -58,6 +63,7 @@ class InventoryController extends Controller
     {
 
         $inventories = Inventory::all();
+        $categories = $this->getCategory($inventories);
 
         //各景品の一番早いexpired_atを取得
         $i = 0;
@@ -67,12 +73,16 @@ class InventoryController extends Controller
             foreach ($stocks as $stock) {
                 $value[] = $stock->expired_at;
             }
-            $inventories[$i]['expired_at'] = min($value);
+            if (count($value) >= 1) {
+                $inventories[$i]['expired_at'] = min($value);
+            } else {
+                $inventories[$i]['expired_at'] =  '////';
+            }
             $value = array();
             $i++;
         }
 
-        return view('layouts.inventoryOpe.index', compact('inventories'));
+        return view('layouts.inventoryOpe.index', compact('inventories', 'categories'));
     }
 
     /**
@@ -82,7 +92,10 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('layouts.inventoryOpe.create');
+        $inventories = Inventory::all();
+        $categories = $this->getCategory($inventories);
+
+        return view('layouts.inventoryOpe.create', compact('inventories', 'categories'));
     }
 
     /**
@@ -90,10 +103,44 @@ class InventoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * name, category_name, parchase, box_price, unit_price, lank, taste_flag, image_url
      */
     public function store(Request $request)
     {
-        //
+        $unit_price = floor($request->box_price / $request->parchase);
+        switch ($unit_price) {
+            case $unit_price >= 780:
+                $lank = 'A';
+                break;
+            case $unit_price >= 680:
+                $lank = 'B';
+                break;
+            case $unit_price >= 580:
+                $lank = 'C';
+                break;
+            case $unit_price >= 400:
+                $lank = 'D';
+                break;
+            case $unit_price >= 300:
+                $lank = 'E';
+                break;
+            case $unit_price >= 100:
+                $lank = 'F';
+                break;
+            default:
+                $lank = '';
+                break;
+        };
+
+        $inventory = Inventory::create([
+            'name' => $request->name,
+            'category_name' => $request->category_name,
+            'parchase' => $request->parchase,
+            'box_price' => $request->box_price,
+            'unit_price' => $unit_price,
+            'lank' => $lank,
+            'image_url' => $request->image_url
+        ]);
     }
 
     /**
@@ -104,7 +151,8 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        return view('layouts.inventoryOpe.show');
+        $inventory = Inventory::whereId($id)->first();
+        return view('layouts.inventoryOpe.show', compact('inventory'));
     }
 
     /**
@@ -115,7 +163,8 @@ class InventoryController extends Controller
      */
     public function edit($id)
     {
-        return view('layouts.inventoryOpe.edit');
+        $inventory = Inventory::whereId($id)->get();
+        return view('layouts.inventoryOpe.edit', compact('inventory'));
     }
 
     /**
@@ -139,5 +188,24 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    ////////////////////////////////
+    // コントローラー内で使うやつ
+    ////////////////////////////////
+
+    // category_name 重複カットして取得
+    public function getCategory($inventories) {
+        $categories = array();
+        $tmpkey = array();
+
+        foreach ($inventories as $inventory){
+            if (!isset($tmpkey[$inventory->category_name])){
+                $categories[] = $inventory->category_name;
+                $tmpkey[$inventory->category_name] = "true";
+            }
+        }
+
+        return $categories;
     }
 }
