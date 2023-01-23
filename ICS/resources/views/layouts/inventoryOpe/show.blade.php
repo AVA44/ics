@@ -9,18 +9,28 @@
 
     <!-- 賞味期限ごとの在庫 -->
     <table id="show_table" border='1'>
+
         <tr>
+            <th>味</th>
             <th>賞味期限</th>
             <th>使用期限</th>
             <th>残り日数</th>
             <th>在庫</th>
         </tr>
-        <!-- if (count($stocks) >= 1) { -->
-            <!-- 在庫あり -->
 
-        <!-- } else { -->
-            <!-- 在庫なし -->
-        <!-- } -->
+        @foreach ($stocks as $stock)
+            <tr>
+                <th>{{ $stock->taste_name }}</th>
+                <th>{{ $stock->expired_at }}</th>
+                <th>{{ $stock->limited_at }}</th>
+                <th>{{ $limit_count[$loop->index] }}</th>
+                @if ($stocks_data[$stock['income_count']]['count'] == $loop->iteration)
+                    <th rowspan="{{ $stocks_data[$stock['income_count']]['rowspan'] }}">
+                        {{ $stocks_data[$stock['income_count']]['total'] }}
+                    </th>
+                @endif
+            </tr>
+        @endforeach
     </table>
 
     <!-- 商品の情報 -->

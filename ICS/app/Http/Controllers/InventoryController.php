@@ -108,30 +108,7 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $unit_price = floor($request->box_price / $request->parchase);
-        switch ($unit_price) {
-            case $unit_price >= 780:
-                $lank = 'A';
-                break;
-            case $unit_price >= 680:
-                $lank = 'B';
-                break;
-            case $unit_price >= 580:
-                $lank = 'C';
-                break;
-            case $unit_price >= 400:
-                $lank = 'D';
-                break;
-            case $unit_price >= 300:
-                $lank = 'E';
-                break;
-            case $unit_price >= 100:
-                $lank = 'F';
-                break;
-            default:
-                $lank = '';
-                break;
-        };
-
+        $lank = $this->getLank($unit_price);
         $inventory = Inventory::create([
             'name' => $request->name,
             'category_name' => $request->category_name,
@@ -151,8 +128,17 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
+        // 景品の情報とその景品の在庫の情報取得
         $inventory = Inventory::whereId($id)->first();
-        return view('layouts.inventoryOpe.show', compact('inventory'));
+        $stocks = Stock::whereInventory_id($id)->orderBy('income_count', 'asc')->get();
+
+        // 納品時の塊ごとにレコードの数とstockの合計取得
+        $stocks_data = $this->getIncome_countCountandStockTotal($stocks);
+
+        // limit_count 作成
+        $limit_count = $this->getLimit_count($stocks);
+
+        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data', 'limit_count'));
     }
 
     /**
@@ -190,6 +176,9 @@ class InventoryController extends Controller
         //
     }
 
+
+
+
     ////////////////////////////////
     // コントローラー内で使うやつ
     ////////////////////////////////
@@ -207,5 +196,74 @@ class InventoryController extends Controller
         }
 
         return $categories;
+    }
+
+    // lank 条件に則って作成
+    public function getLank($unit_price) {
+
+        switch ($unit_price) {
+            case $unit_price >= 780:
+                $lank = 'A';
+                break;
+            case $unit_price >= 680:
+                $lank = 'B';
+                break;
+            case $unit_price >= 580:
+                $lank = 'C';
+                break;
+            case $unit_price >= 400:
+                $lank = 'D';
+                break;
+            case $unit_price >= 300:
+                $lank = 'E';
+                break;
+            case $unit_price >= 100:
+                $lank = 'F';
+                break;
+            default:
+                $lank = '';
+                break;
+        };
+
+        return $lank;
+    }
+
+    public function getLimited_at($expired_at) {
+
+        $limited_at = date('Y-m-d', strtotime("$expired_at -45 day"));
+
+        return $limited_at;
+    }
+
+    // income_count 重複をカウント
+    public function getIncome_countCountandStockTotal($stocks) {
+
+        $stocks_array = $stocks->toArray();
+
+        $value = [];
+        $i = 0;
+        foreach ($stocks_array as $stocks_data) {
+            $i++;
+            if (array_key_exists($stocks_data['income_count'], $value)) {
+                $value[$stocks_data['income_count']]['rowspan'] += 1;
+                $value[$stocks_data['income_count']]['total'] += $stocks_data['stock'];
+            } else {
+                $value[$stocks_data['income_count']]['rowspan'] = 1;
+                $value[$stocks_data['income_count']]['total'] = $stocks_data['stock'];
+                $value[$stocks_data['income_count']]['count'] = $i;
+            }
+        };
+
+        return $value;
+    }
+
+    // limit_count 所定の計算をして取得
+    public function getLimit_count($array) {
+
+        foreach ($array as $data) {
+            $value[] = (strtotime($data['limited_at']) - strtotime(date('Y-m-d'))) / 86400;
+        }
+
+        return $value;
     }
 }
