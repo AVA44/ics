@@ -20,8 +20,9 @@ Route::resource('inventory', 'InventoryController');
 Route::post('/ajax', 'InventoryController@ajax');
 
 // 在庫情報操作系
-Route::post('/addStock', 'StockController@addStock')->name('stock.add');
-Route::post('/addStockConfilm', 'StockController@addStockConfilm')->name('stock.addConfilm');
-Route::post('/useStock', 'StockController@useStock')->name('stock.use');
-Route::post('/useStockConfilm', 'StockController@useStockConfilm')->name('stock.useConfilm');
-Route::post('/stockDestroy', 'StockController@stockDestroy')->name('stock.destroy');
+Route::get('/addStock', 'StockController@addStockForm')->name('stock.addForm');
+Route::get('/addStockConfilm', 'StockController@addStockConfilm')->name('stock.addConfilm');
+Route::get('/useStock', 'StockController@useStock')->name('stock.useForm');
+Route::get('/useStockConfilm', 'StockController@useStockConfilm')->name('stock.useConfilm');
+Route::post('/choiceStockDestroy', 'StockController@choiceStockDestroy')->name('stock.choiceDestroy');
+Route::post('/absentStockDestroy', 'StockController@absentStockDestroy')->name('stock.absentDestroy');

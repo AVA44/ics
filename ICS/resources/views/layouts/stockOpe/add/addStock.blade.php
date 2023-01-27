@@ -2,51 +2,36 @@
 
 @section('title', '入庫景品選択')
 @section('pageCss', '')
+@section('pageJs')
+    <script src="{{ mix('js/ajax.js') }}"></script>
+@endsection
 
 @section('content')
 
     <h2>景品入庫</h2>
 
     <!-- 景品検索、ソート用のデータ入力する場所 -->
-    @component('components.orderForm');
+    @component('components.orderForm')
 
     <!-- 景品選択-->
     <form method="post" action="#">
-        <table>
+        <table border>
             <tr>
-                <th>選択</th>
                 <th>名前</th>
                 <th>カテゴリ</th>
+                <th>選択</th>
             </tr>
-            <tr>
-                <td><input type="checkbox" value="1" /></td>
-                <input type="hidden" value="景品ID" />
-                <td>Inventory1</td>
-                <td>Category1</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" value="1" /></td>
-                <input type="hidden" value="景品ID" />
-                <td>Inventory2</td>
-                <td>Category2</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" value="1" /></td>
-                <input type="hidden" value="景品ID" />
-                <td>Inventory3</td>
-                <td>Category3</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" value="1" /></td>
-                <input type="hidden" value="景品ID" />
-                <td>Inventory4</td>
-                <td>Category4</td>
-            </tr>
-        </table>
-        <input type="button" value="景品入庫" onclick="getData()" />
-    </form>
+            @foreach ($inventories as $inventory)
 
-    <script>
-    </script>
+                <tr>
+                    <input type="hidden" value="{{ $inventory->id }}" />
+                    <td>{{ $inventory->name }}</td>
+                    <td>{{ $inventory->category_name }}</td>
+                    <td><input class="choice" type="button" value="選択" /></td>
+                </tr>
+            @endforeach
+        </table>
+        <input type="button" value="確認" />
+    </form>
 
 @endsection

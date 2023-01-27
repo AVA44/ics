@@ -23,7 +23,7 @@
                 <th>{{ $stock->taste_name }}</th>
                 <th>{{ $stock->expired_at }}</th>
                 <th>{{ $stock->limited_at }}</th>
-                <th>{{ $limit_count[$loop->index] }}</th>
+                <th>{{ $stock->limit_count }}</th>
                 @if ($stocks_data[$stock['income_count']]['count'] == $loop->iteration)
                     <th rowspan="{{ $stocks_data[$stock['income_count']]['rowspan'] }}">
                         {{ $stocks_data[$stock['income_count']]['total'] }}

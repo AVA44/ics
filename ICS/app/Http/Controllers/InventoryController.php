@@ -14,40 +14,65 @@ class InventoryController extends Controller
     ////////////////////////////////
 
     public function ajax(Request $request) {
+
         // 検索データ取得
+        // 名前検索・カテゴリ検索
         if (($orderName = $request->name_search) && ($orderCategory = $request->cate_search)) {
-            $orderData = Inventory::
-                with('stocks')
+            $orderData = Inventory::with('stocks')
                 ->where([
-                    ['name', '=', $orderName],
+                    ['name', 'LIKE', '%'.$orderName.'%'],
                     ['category_name', '=', $orderCategory],
                 ])
                 ->get();
 
+        // 名前検索
         } elseif ($orderName = $request->name_search) {
-            $orderData = Inventory::with('stocks')->whereName($orderName)->get();
+            $orderData = Inventory::with('stocks')
+                ->where('name', 'LIKE', '%'.$orderName.'%')
+                ->get();
 
+        // カテゴリ検索
         } elseif ($orderCategory = $request->cate_search) {
-            $orderData = Inventory::with('stocks')->whereCategory_name($orderCategory)->get();
+            $orderData = Inventory::with('stocks')
+                ->whereCategory_name($orderCategory)
+                ->get();
 
+        // 検索なし
         } else {
-            $orderData = Inventory::with('stocks')->get();
+            $orderData = Inventory::with('stocks')
+                ->get();
         }
 
         // データのトリミング、配列に格納
         $i = 0;
         foreach ($orderData as $orderDatum) {
+
             // Inventoryデータ格納
             $orderInventoryData[] = $orderDatum;
-            // Stockデータから最も早いexpired_atを取得して格納
-            $expired_at = array();
-            foreach ($orderDatum['stocks'] as $stocksData) {
-                $expired_at[$stocksData['limited_at']] = $stocksData['expired_at'];
-            }
-            $orderInventoryData[$i]['expired_at'] = min($expired_at);
-            $orderInventoryData[$i]['limited_at'] = array_search($orderInventoryData[$i]['expired_at'], $expired_at);
-            unset($orderDatum['stocks']);
 
+            // 在庫がある場合
+            if (count($orderDatum['stocks']) > 0) {
+
+                // Stockデータから最も早いexpired_atを取得して格納
+                $expired_at = array();
+                foreach ($orderDatum['stocks'] as $stocksData) {
+                    $expired_at[$stocksData['limited_at']] = $stocksData['expired_at'];
+                };
+                $orderInventoryData[$i]['expired_at'] = min($expired_at);
+
+                // limited_at, limit_count作成
+                $orderInventoryData[$i]['limited_at'] = array_search($orderInventoryData[$i]['expired_at'], $expired_at);
+                $orderInventoryData[$i]['limit_count'] = $this->getLimit_count($orderInventoryData[$i]['limited_at']);
+
+            // 在庫がない場合
+            } else {
+                $orderInventoryData[$i]['expired_at'] = "////";
+                $orderInventoryData[$i]['limited_at'] = "////";
+                $orderInventoryData[$i]['limit_count'] = "////";
+            }
+
+            // 不要なstocksデータを削除
+            unset($orderDatum['stocks']);
             $i++;
         }
 
@@ -136,9 +161,11 @@ class InventoryController extends Controller
         $stocks_data = $this->getIncome_countCountandStockTotal($stocks);
 
         // limit_count 作成
-        $limit_count = $this->getLimit_count($stocks);
-
-        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data', 'limit_count'));
+        foreach ($stocks as $stock) {
+            $stock['limit_count'] = $this->getLimit_count($stock['limited_at']);
+        }
+        
+        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data'));
     }
 
     /**
@@ -258,11 +285,18 @@ class InventoryController extends Controller
     }
 
     // limit_count 所定の計算をして取得
-    public function getLimit_count($array) {
+    public function getLimit_countt($array) {
 
         foreach ($array as $data) {
             $value[] = (strtotime($data['limited_at']) - strtotime(date('Y-m-d'))) / 86400;
-        }
+        };
+
+        return $value;
+    }
+
+    public function getLimit_count($int) {
+
+        $value = (strtotime($int) - strtotime(date('Y-m-d'))) / 86400;
 
         return $value;
     }

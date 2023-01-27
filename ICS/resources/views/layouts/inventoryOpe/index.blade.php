@@ -30,25 +30,18 @@
 
             @foreach ($inventories as $inventory)
                 @php
-                    // 使用期限　賞味期限の４５日前
+
+                    // $limited_at $limit_count作成
+                    // 在庫がない場合
                     if ($inventory->expired_at == '////'){
-                        //在庫がない場合
                         $limited_at = '////';
-
-                    } else {
-                        //在庫がある場合
-                        $limited_at = date('Y-m-d', strtotime("$inventory->expired_at -45 day"));
-                    };
-
-                    // 使用期限までの日数
-                    if ($limited_at == '////') {
-                        //在庫がない場合
                         $limit_count = '////';
 
+                    // 在庫がある場合
                     } else {
-                        //在庫がある場合
+                        $limited_at = date('Y-m-d', strtotime("$inventory->expired_at -45 day"));
                         $limit_count = (strtotime($limited_at) - strtotime(date('Y-m-d'))) / 86400;
-                    }
+                    };
                 @endphp
 
                 <tr class="tableData">
@@ -64,7 +57,5 @@
         </table>
     </div>
     <script>
-        // let table_data = document.getElementsByClassName('table-data');
-        // console.log(table_data);
     </script>
 @endsection

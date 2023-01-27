@@ -7,6 +7,7 @@
 <!-- <link href="/css/star/layout.css" rel="stylesheet"> -->
 @yield('pageCss')
 <script src="{{ mix('js/ajax.js') }}"></script>
+@yield('pageJs')
 </head>
     <body>
         @component('components.header')
