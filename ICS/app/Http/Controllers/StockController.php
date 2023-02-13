@@ -63,21 +63,31 @@ class StockController extends Controller
 
             $limited_at = date('Y-m-d', strtotime("{$request->expired_at[$i]} -45 day"));
 
-            $inventory = Stock::create([
-                'inventory_id' => $request->inventory_id[$i],
-                'income_count' => $income_count,
-                'expired_at' => $request->expired_at[$i],
-                'limited_at' => $limited_at,
-                'taste_name' => $taste,
-                'stock' => $request->stock[$i]
-            ]);
+            $update_if = Stock::whereInventory_id($request->inventory_id)->whereTaste_name($taste)->whereExpired_at($request->expired_at[$i])->first();
 
-            $name[] = Inventory::select('name')->whereid($request->inventory_id)->get()[0]->name;
-            $expired_at[] = $request->expired_at[$i];
-            $limited_at_conf[] = $limited_at;
-            $taste_name[] = $taste;
-            $stock[] = $request->stock[$i];
+            // 賞味期限と味が同じ在庫がある場合
+            if (isset($update_if)) {
 
+                $update_if->update([
+                    'stock' => ($update_if->stock) + $request->stock[$i]
+                ]);
+                $name[] = Inventory::select('name')->whereid($request->inventory_id)->get()[0]->name;
+                $expired_at[] = $request->expired_at[$i];
+                $limited_at_conf[] = $limited_at;
+                $taste_name[] = $taste;
+                $stock[] = $update_if->stock;
+
+            } else {
+
+                $inventory = Stock::create([
+                    'inventory_id' => $request->inventory_id[$i],
+                    'income_count' => $income_count,
+                    'expired_at' => $request->expired_at[$i],
+                    'limited_at' => $limited_at,
+                    'taste_name' => $taste,
+                    'stock' => $request->stock[$i]
+                ]);
+            }
         }
 
         return view('layouts.stockOpe.add.addStockConfirm', compact('name', 'expired_at', 'limited_at_conf', 'taste_name', 'stock'));
