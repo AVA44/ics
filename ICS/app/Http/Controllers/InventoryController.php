@@ -164,7 +164,7 @@ class InventoryController extends Controller
         foreach ($stocks as $stock) {
             $stock['limit_count'] = $this->getLimit_count($stock['limited_at']);
         }
-        
+
         return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data'));
     }
 
@@ -285,15 +285,6 @@ class InventoryController extends Controller
     }
 
     // limit_count 所定の計算をして取得
-    public function getLimit_countt($array) {
-
-        foreach ($array as $data) {
-            $value[] = (strtotime($data['limited_at']) - strtotime(date('Y-m-d'))) / 86400;
-        };
-
-        return $value;
-    }
-
     public function getLimit_count($int) {
 
         $value = (strtotime($int) - strtotime(date('Y-m-d'))) / 86400;

@@ -19,7 +19,7 @@ class CreateStocksTable extends Migration
             $table->bigInteger('income_count');
             $table->date('expired_at');
             $table->date('limited_at');
-            $table->smallInteger('stock');
+            $table->smallInteger('stock')->default(0);
             $table->string('taste_name', 20)->default('・');
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));

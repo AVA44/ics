@@ -12,7 +12,10 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/ajax.js', 'public/js')
+    .js('resources/js/addStock.js', 'public/js')
+    .js('resources/js/indexAjax.js', 'public/js')
+    .js('resources/js/addStockAjax.js', 'public/js')
+    .js('resources/js/useStockAjax.js', 'public/js')
     .js('resources/js/index.js', 'public/js')
     .autoload( {
     "jquery": [ '$', 'window.jQuery' ],

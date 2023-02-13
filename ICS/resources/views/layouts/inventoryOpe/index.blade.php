@@ -1,7 +1,10 @@
 @extends('template.app')
 
 @section('title', '一覧')
-@section('pageCss', '')
+
+@section('pageJs')
+    <script src="{{ mix('js/indexAjax.js') }}"></script>
+@endsection
 
 @section('content')
 

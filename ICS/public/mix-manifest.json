@@ -1,6 +1,9 @@
 {
-    "/js/ajax.js": "/js/ajax.js",
+    "/js/addStock.js": "/js/addStock.js",
+    "/js/addStockAjax.js": "/js/addStockAjax.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/index.js": "/js/index.js"
+    "/js/index.js": "/js/index.js",
+    "/js/indexAjax.js": "/js/indexAjax.js",
+    "/js/useStockAjax.js": "/js/useStockAjax.js"
 }

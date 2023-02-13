@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11092,31 +11092,99 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./resources/js/index.js":
-/*!*******************************!*\
-  !*** ./resources/js/index.js ***!
-  \*******************************/
+/***/ "./resources/js/addStock.js":
+/*!**********************************!*\
+  !*** ./resources/js/addStock.js ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {$(function () {
-  $('.choice').on('click', function () {
-    // let row = $(this).closest('tr').text();
-    console.log('row');
+  // 選択したデータ表示
+  $(document).on('click', '.choice', function () {
+    var id = $(this).closest('tr').children("td")[0].innerText;
+    var name = $(this).closest('tr').children("td")[1].innerText;
+    var category_name = $(this).closest('tr').children("td")[2].innerText;
+    var select = $('.' + id).html();
+    $('.addDataForm').append('\
+            <div class="add_data" style="display: flex;">\
+                <div class="input" style="display: flex;">\
+                    <p>・</p>\
+                    <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
+                    <p>' + name + '</p>\
+                    <p>' + category_name + '</p>\
+                    <label>味：</label>' + select + '\
+                    <div class="new_taste">\
+                        <input class="taste_input" type="text" name="new_taste_name[]" />\
+                    </div>\
+                    <label>賞味期限:</label><input type="date" name="expired_at[]" />\
+                    <label>納品個数:</label><input type="number" name="stock[]" />\
+                </div>\
+                <div>\
+                    <input class="cancel" type="button" value="×" />\
+                </div>\
+            </div>\
+        ');
+  });
+
+  // 景品選択されていない時に味追加を押せないようにしたい。選択で景品ごとの箱を作る。箱がなければ味追加できないようにする。
+  // 味追加
+  $(document).on('click', '.add_taste', function () {
+    var id = $(this).closest('tr').children("td")[0].innerText;
+    var select = $('.' + id).html();
+    $('.addDataForm').append('\
+            <div class="add_data" style="display: flex;">\
+                <div class="input" style="display: flex;">\
+                    <p>・</p>\
+                    <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
+                    <p></p>\
+                    <p></p>\
+                    <label>味：</label>' + select + '\
+                    <div class="new_taste">\
+                        <input class="taste_input" type="text" name="new_taste_name[]" />\
+                    </div>\
+                    <label>賞味期限:</label><input type="date" name="expired_at[]" />\
+                    <input type="hidden" name="stock[]" value="0" />\
+                </div>\
+                <div>\
+                    <input class="cancel" type="button" value="×" />\
+                </div>\
+            </div>\
+        ');
+  });
+
+  // 選択したデータ削除
+  $(document).on('click', '.cancel', function () {
+    $(this).closest('.add_data').remove();
+  });
+
+  // select boxで’新しい味’が選択されている時text boxを表示
+  $(document).on('change', '.select', function () {
+    var option = $(this).val();
+    if (option == 'new') {
+      $(this).nextAll('.new_taste:first').css('display', 'block');
+    } else {
+      $(this).nextAll('.new_taste:first').css('display', 'none');
+    }
+  });
+
+  // フォーム送信ボタン
+  $('.add').on('click', function () {
+    $('.addDataForm').submit();
   });
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
-/***/ 5:
-/*!*************************************!*\
-  !*** multi ./resources/js/index.js ***!
-  \*************************************/
+/***/ 1:
+/*!****************************************!*\
+  !*** multi ./resources/js/addStock.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/index.js */"./resources/js/index.js");
+module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/addStock.js */"./resources/js/addStock.js");
 
 
 /***/ })

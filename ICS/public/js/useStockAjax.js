@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11092,10 +11092,10 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./resources/js/ajax.js":
-/*!******************************!*\
-  !*** ./resources/js/ajax.js ***!
-  \******************************/
+/***/ "./resources/js/useStockAjax.js":
+/*!**************************************!*\
+  !*** ./resources/js/useStockAjax.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11134,16 +11134,16 @@ $(function () {
       var obj = JSON.parse(JSON.stringify(data));
       obj.forEach(function (o) {
         var tableDataLayout = function tableDataLayout() {
-          return '\
-                    <tr class="tableData">\
-                        <td><a href="inventory/' + o.id + '">' + o.name + '</a></td>\
-                        <td>' + o.category_name + '</td>\
-                        <td>' + o.unit_price + '</td>\
-                        <td>' + o.lank + '</td>\
-                        <td>' + o.expired_at + '</td>\
-                        <td>' + o.limited_at + '</td>\
-                        <td>' + o.limit_count + '</td>\
-                    </tr>';
+          // 在庫ある景品だけ表示
+          if (o.expired_at != '////') {
+            return '\
+                      <tr class="tableData">\
+                          <td>' + o.name + '</a></td>\
+                          <td>' + o.category_name + '</td>\
+                          <td><input class=' + o.id + ' type="button" value="選択" /></td>\
+                      </tr>';
+          }
+          ;
         };
         $('.inventories_table').append(tableDataLayout());
       });
@@ -11159,14 +11159,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 1:
-/*!************************************!*\
-  !*** multi ./resources/js/ajax.js ***!
-  \************************************/
+/***/ 4:
+/*!********************************************!*\
+  !*** multi ./resources/js/useStockAjax.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/ajax.js */"./resources/js/ajax.js");
+module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/useStockAjax.js */"./resources/js/useStockAjax.js");
 
 
 /***/ })
