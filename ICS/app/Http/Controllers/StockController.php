@@ -72,20 +72,15 @@ class StockController extends Controller
                 'stock' => $request->stock[$i]
             ]);
 
-            $inventory_id[] = $request->inventory_id[$i];
+            $name[] = Inventory::select('name')->whereid($request->inventory_id)->get()[0]->name;
             $expired_at[] = $request->expired_at[$i];
-            $taste_name[] = $request->taste_name[$i];
+            $limited_at_conf[] = $limited_at;
+            $taste_name[] = $taste;
             $stock[] = $request->stock[$i];
 
         }
 
-        return view('layouts.stockOpe.add.addStockConfirm');
-    }
-
-    // 確認
-    public function addStockConfilm() {
-
-        return view('layouts.stockOpe.add.addStockConfilm');
+        return view('layouts.stockOpe.add.addStockConfirm', compact('name', 'expired_at', 'limited_at_conf', 'taste_name', 'stock'));
     }
 
     // 出庫する在庫入力
