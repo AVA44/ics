@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStocksTable extends Migration
+class CreateStocksDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateStocksTable extends Migration
      */
     public function up()
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('stocks_data', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('inventory_id');
-            $table->bigInteger('income_count');
+            $table->integer('stock_data_id');
             $table->date('expired_at');
             $table->date('limited_at');
-            $table->smallInteger('stock')->default(0);
             $table->string('taste_name', 20)->default('・');
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
@@ -33,6 +32,6 @@ class CreateStocksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('stocks_data');
     }
 }

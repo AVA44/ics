@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             InventoriesSeeder::class,
-            StocksSeeder::class,
-            Inventory_stocksSeeder::class,
+            StockDataSeeder::class,
+            StockSeeder::class,
         ]);
     }
 }

@@ -4,6 +4,7 @@
 @section('pageCss', '')
 @section('pageJs')
     <script src="{{ mix('js/useStockAjax.js') }}"></script>
+    <script src="{{ mix('js/useStock.js') }}"></script>
 @endsection
 
 @section('content')
@@ -24,6 +25,7 @@
             <tr>
                 <th>名前</th>
                 <th>カテゴリ</th>
+                <th>在庫</th>
                 <th>選択</th>
             </tr>
             @foreach ($inventories as $inventory)
@@ -32,6 +34,7 @@
                     <input type="hidden" value="{{ $inventory->id }}" />
                     <td>{{ $inventory->name }}</td>
                     <td>{{ $inventory->category_name }}</td>
+                    <td>{{ $inventory->stocks }}</td>
                     <td><input class="choice" type="button" value="選択" /></td>
                 </tr>
             @endforeach

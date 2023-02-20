@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Inventory;
-use App\Stock;
+use App\StockData;
 
-class StockController extends Controller
+class StockDataController extends Controller
 {
     // 入庫する在庫入力
     public function addStockForm() {
@@ -96,6 +96,23 @@ class StockController extends Controller
     // 出庫する在庫入力
     public function useStockForm() {
 
+        // 景品の情報とその景品の在庫の情報をInventoryのidごとに取得
+        for ($i = 1; $i <= Inventory::count(); $i++) {
+            $choice_inventories[$i]= Inventory::whereId($i)->get();
+            $choice_stocks[$i] = Stock::whereInventory_id($i)->orderBy('income_count', 'asc')->get();
+
+            // 納品時の塊ごとにレコードの数とstockの合計取得
+            $inventoryController = app()->make('App\Http\Controllers\InventoryController');
+            $stocks_data = $inventoryController->getIncome_countCountandStockTotal($choice_stocks[$i]);
+dd($choice_stocks[$i]);
+            // limit_count 作成
+            foreach ($choice_stocks[$i] as $stock) {
+                $stock['limit_count'] = $inventoryController->getLimit_count($stock['limited_at']);
+            }
+        }
+        dd($stocks_data);
+
+        // 景品情報とカテゴリーを重複削除して取得
         $inventories = Inventory::with('stocks')->get();
         $inventoryController = app()->make('App\Http\Controllers\InventoryController');
         $categories = $inventoryController->getCategory($inventories);

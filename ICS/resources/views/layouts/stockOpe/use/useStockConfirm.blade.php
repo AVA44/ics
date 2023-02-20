@@ -1,4 +1,4 @@
-v@extends('template.app')
+@extends('template.app')
 
 @section('title', '景品出庫')
 @section('pageCss', '')

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Inventory;
-use App\Stock;
+use App\StockData;
 
 class InventoryController extends Controller
 {
@@ -271,9 +271,13 @@ class InventoryController extends Controller
         $i = 0;
         foreach ($stocks_array as $stocks_data) {
             $i++;
+            // income_countが新しく出てきたものの場合
             if (array_key_exists($stocks_data['income_count'], $value)) {
+
                 $value[$stocks_data['income_count']]['rowspan'] += 1;
                 $value[$stocks_data['income_count']]['total'] += $stocks_data['stock'];
+
+            // income_countがすでに出てきているものの場合
             } else {
                 $value[$stocks_data['income_count']]['rowspan'] = 1;
                 $value[$stocks_data['income_count']]['total'] = $stocks_data['stock'];

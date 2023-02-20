@@ -1,6 +1,5 @@
 $(function() {
 
-
     // 選択したデータ表示
     $(document).on('click', '.choice', function() {
         let id = $(this).closest('tr').children("td")[0].innerText;
