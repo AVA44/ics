@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Inventory;
 use App\StockData;
+use App\Stock;
 
 class InventoryController extends Controller
 {
@@ -18,7 +19,7 @@ class InventoryController extends Controller
         // 検索データ取得
         // 名前検索・カテゴリ検索
         if (($orderName = $request->name_search) && ($orderCategory = $request->cate_search)) {
-            $orderData = Inventory::with('stocks')
+            $orderData = Inventory::with('stocks_data')
                 ->where([
                     ['name', 'LIKE', '%'.$orderName.'%'],
                     ['category_name', '=', $orderCategory],
@@ -27,19 +28,19 @@ class InventoryController extends Controller
 
         // 名前検索
         } elseif ($orderName = $request->name_search) {
-            $orderData = Inventory::with('stocks')
+            $orderData = Inventory::with('stocks_data')
                 ->where('name', 'LIKE', '%'.$orderName.'%')
                 ->get();
 
         // カテゴリ検索
         } elseif ($orderCategory = $request->cate_search) {
-            $orderData = Inventory::with('stocks')
+            $orderData = Inventory::with('stocks_data')
                 ->whereCategory_name($orderCategory)
                 ->get();
 
         // 検索なし
         } else {
-            $orderData = Inventory::with('stocks')
+            $orderData = Inventory::with('stocks_data')
                 ->get();
         }
 
@@ -51,11 +52,11 @@ class InventoryController extends Controller
             $orderInventoryData[] = $orderDatum;
 
             // 在庫がある場合
-            if (count($orderDatum['stocks']) > 0) {
+            if (count($orderDatum['stocks_data']) > 0) {
 
                 // Stockデータから最も早いexpired_atを取得して格納
                 $expired_at = array();
-                foreach ($orderDatum['stocks'] as $stocksData) {
+                foreach ($orderDatum['stocks_data'] as $stocksData) {
                     $expired_at[$stocksData['limited_at']] = $stocksData['expired_at'];
                 };
                 $orderInventoryData[$i]['expired_at'] = min($expired_at);
@@ -71,8 +72,8 @@ class InventoryController extends Controller
                 $orderInventoryData[$i]['limit_count'] = "////";
             }
 
-            // 不要なstocksデータを削除
-            unset($orderDatum['stocks']);
+            // 不要なstocks_dataを削除
+            unset($orderDatum['stocks_data']);
             $i++;
         }
 
@@ -94,7 +95,7 @@ class InventoryController extends Controller
         $i = 0;
         foreach($inventories as $inventory) {
 
-            $stocks = Stock::where('inventory_id', '=', $inventory->id)->get();
+            $stocks = StockData::where('inventory_id', '=', $inventory->id)->get();
             foreach ($stocks as $stock) {
                 $value[] = $stock->expired_at;
             }
@@ -143,6 +144,8 @@ class InventoryController extends Controller
             'lank' => $lank,
             'image_url' => $request->image_url
         ]);
+
+        return redirect()->route('inventory.index');
     }
 
     /**
@@ -153,19 +156,27 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        // 景品の情報とその景品の在庫の情報取得
+        // 景品の情報と在庫の情報を取得
         $inventory = Inventory::whereId($id)->first();
-        $stocks = Stock::whereInventory_id($id)->orderBy('income_count', 'asc')->get();
+        $stocks_data = StockData::whereInventory_id($id)->orderBy('stock_data_id', 'asc')->get();
 
-        // 納品時の塊ごとにレコードの数とstockの合計取得
-        $stocks_data = $this->getIncome_countCountandStockTotal($stocks);
+        // stockをstock_data_idごとに取得
+        $stocks_data_id_unique_count = StockData::whereInventory_id($id)->select('stock_data_id')->distinct()->get();
+
+        for ($i = 0; $i < count($stocks_data_id_unique_count); $i++) {
+
+                $stocks[$stocks_data_id_unique_count[$i]['stock_data_id']] = Stock::whereId($stocks_data_id_unique_count[$i]['stock_data_id'])->orderBy('id', 'asc')->get();
+        }
+
+        // stocks_dataを表示する際stockとずれなく表示するための区切り取得
+        $stocks_delimiter = $this->getStock_dataDelimiter($stocks_data);
 
         // limit_count 作成
-        foreach ($stocks as $stock) {
+        foreach ($stocks_data as $stock) {
             $stock['limit_count'] = $this->getLimit_count($stock['limited_at']);
         }
 
-        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data'));
+        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data', 'stocks_delimiter', 'stocks_data_id_unique_count'));
     }
 
     /**
@@ -262,30 +273,28 @@ class InventoryController extends Controller
         return $limited_at;
     }
 
-    // income_count 重複をカウント
-    public function getIncome_countCountandStockTotal($stocks) {
+    // stock_data_idごとに分けるための区切り取得
+    public function getStock_dataDelimiter($stocks) {
 
-        $stocks_array = $stocks->toArray();
+        // stock_data_idで分ける
+        $check = [];
+        for ($i = 0; $i < count($stocks); $i++) {
 
-        $value = [];
-        $i = 0;
-        foreach ($stocks_array as $stocks_data) {
-            $i++;
-            // income_countが新しく出てきたものの場合
-            if (array_key_exists($stocks_data['income_count'], $value)) {
+            $stock_data_id = $stocks[$i]['stock_data_id'];
 
-                $value[$stocks_data['income_count']]['rowspan'] += 1;
-                $value[$stocks_data['income_count']]['total'] += $stocks_data['stock'];
-
-            // income_countがすでに出てきているものの場合
+            // rowspan=>テーブルレイアウトで表示する際に使用
+            // count=>rowspanを設定する<td>を指定する際に使用
+            // 初めて出るstock_data_idの時
+            if (!array_key_exists($stock_data_id, $check)) {
+                $check[$stock_data_id]['rowspan'] = 1;
+                $check[$stock_data_id]['count'] = $i;
             } else {
-                $value[$stocks_data['income_count']]['rowspan'] = 1;
-                $value[$stocks_data['income_count']]['total'] = $stocks_data['stock'];
-                $value[$stocks_data['income_count']]['count'] = $i;
+            // すでに出たstock_data_idの時
+                $check[$stock_data_id]['rowspan']++;
             }
-        };
-
-        return $value;
+        }
+        
+        return $check;
     }
 
     // limit_count 所定の計算をして取得

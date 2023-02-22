@@ -18,19 +18,20 @@
             <th>在庫</th>
         </tr>
 
-        @foreach ($stocks as $stock)
+
+        @for ($i = 0; $i < count($stocks_data); $i++)
             <tr>
-                <th>{{ $stock->taste_name }}</th>
-                <th>{{ $stock->expired_at }}</th>
-                <th>{{ $stock->limited_at }}</th>
-                <th>{{ $stock->limit_count }}</th>
-                @if ($stocks_data[$stock['income_count']]['count'] == $loop->iteration)
-                    <th rowspan="{{ $stocks_data[$stock['income_count']]['rowspan'] }}">
-                        {{ $stocks_data[$stock['income_count']]['total'] }}
-                    </th>
-                @endif
+                <td>{{ $stocks_data[$i]->taste_name }}</th>
+                <td>{{ $stocks_data[$i]->expired_at }}</th>
+                <td>{{ $stocks_data[$i]->limited_at }}</th>
+                <td>{{ $stocks_data[$i]->limit_count }}</th>
+                    @if ($stocks_delimiter[$stocks_data[$i]['stock_data_id']]['count'] == $i)
+                        <td rowspan="{{ $stocks_delimiter[$stocks_data[$i]['stock_data_id']]['rowspan'] }}">
+                            {{ $stocks[$stocks_data[$i]['stock_data_id']][0]['stock'] }}
+                        </td>
+                    @endif
             </tr>
-        @endforeach
+        @endfor
     </table>
 
     <!-- 商品の情報 -->
