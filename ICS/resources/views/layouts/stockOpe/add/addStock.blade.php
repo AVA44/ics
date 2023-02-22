@@ -47,7 +47,7 @@
         <!-- 選択した景品確認 -->
         <div class="inventories_confirm">
             <h4>在庫を追加する景品</h4>
-            <form class="addDataForm" method="post" action="{{ action('StockController@addStock')}}">
+            <form class="addDataForm" method="post" action="{{ action('StockDataController@addStock')}}">
                 @csrf
             </form>
 

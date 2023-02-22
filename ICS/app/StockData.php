@@ -8,5 +8,5 @@ class StockData extends Model
 {
     protected $table = 'stocks_data';
 
-    protected $fillable = ['inventory_id', 'income_count', 'expired_at', 'limited_at', 'taste_name'];
+    protected $fillable = ['inventory_id', 'stock_data_id', 'expired_at', 'limited_at', 'taste_name'];
 }

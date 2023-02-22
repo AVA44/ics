@@ -8,14 +8,14 @@
     <h3>選択した景品</h3>
     <!-- addStock.blade.phpで入力した入庫情報 -->
     <hr />
-    @for ($i = 0; $i < count($name); $i++)
+    @for ($i = 0; $i < count($name_conf); $i++)
 
         <div class="confilm_container" style="display: flex;">
-            <p>{{ $name[$i] }} /</p>
-            <p>{{ $expired_at[$i] }} /</p>
+            <p>{{ $name_conf[$i] }} /</p>
+            <p>{{ $expired_at_conf[$i] }} /</p>
             <p>{{ $limited_at_conf[$i] }} /</p>
-            <p>{{ $taste_name[$i] }} /</p>
-            <p>{{ $stock[$i] }}</p>
+            <p>{{ $taste_name_conf[$i] }} /</p>
+            <p>{{ $stock_conf[$i] }}</p>
         </div>
         <hr />
     @endfor
