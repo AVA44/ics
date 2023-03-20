@@ -25,9 +25,9 @@
                 <td>{{ $stocks_data[$i]->expired_at }}</th>
                 <td>{{ $stocks_data[$i]->limited_at }}</th>
                 <td>{{ $stocks_data[$i]->limit_count }}</th>
-                    @if ($stocks_delimiter[$stocks_data[$i]['stock_data_id']]['count'] == $i)
-                        <td rowspan="{{ $stocks_delimiter[$stocks_data[$i]['stock_data_id']]['rowspan'] }}">
-                            {{ $stocks[$stocks_data[$i]['stock_data_id']][0]['stock'] }}
+                    @if ($stocks_delimiter[$stocks_data[$i]['stock_id']]['count'] == $i)
+                        <td rowspan="{{ $stocks_delimiter[$stocks_data[$i]['stock_id']]['rowspan'] }}">
+                            {{ $stocks[$stocks_data[$i]['stock_id']][0]['stock'] }}
                         </td>
                     @endif
             </tr>

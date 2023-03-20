@@ -8,5 +8,5 @@ class Stock extends Model
 {
     protected $table = 'stocks';
 
-    protected $fillable = ['stock'];
+    protected $fillable = ['inventory_id', 'stock'];
 }

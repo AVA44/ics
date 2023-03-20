@@ -55,7 +55,7 @@ $(function() {
         ')
     })
 
-    // 選択したデータ削除
+    // 選択キャンセル
     $(document).on('click', '.cancel', function() {
         $(this).closest('.add_data').remove();
     });

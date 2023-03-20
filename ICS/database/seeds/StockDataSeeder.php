@@ -19,7 +19,7 @@ class StockDataSeeder extends Seeder
         for ($i = 1; $i <= 60; $i++) {
 
             $inventory_id = $i;
-            $stock_data_id = $i;
+            $stock_id = $i;
             $expired_at = date('Y-m-d', rand($start, $end));
             $limited_at = date('Y-m-d', strtotime("$expired_at -45 day"));
 
@@ -47,7 +47,7 @@ class StockDataSeeder extends Seeder
             DB::table('stocks_data')->insert([
                 [
                     'inventory_id' => $inventory_id,
-                    'stock_data_id' => $stock_data_id,
+                    'stock_id' => $stock_id,
                     'expired_at' => $expired_at,
                     'limited_at' => $limited_at,
                     'taste_name' => $taste_name,

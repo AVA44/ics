@@ -16,7 +16,7 @@ class CreateStocksDataTable extends Migration
         Schema::create('stocks_data', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('inventory_id');
-            $table->integer('stock_data_id');
+            $table->integer('stock_id');
             $table->date('expired_at');
             $table->date('limited_at');
             $table->string('taste_name', 20)->default('・');

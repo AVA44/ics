@@ -32,7 +32,6 @@
                     <th>味追加</th>
                 </tr>
                 @foreach ($inventories as $inventory)
-
                     <tr class="tableData">
                         <td style="display: none">{{ $inventory->id }}</td>
                         <td>{{ $inventory->name }}</td>
@@ -47,7 +46,7 @@
         <!-- 選択した景品確認 -->
         <div class="inventories_confirm">
             <h4>在庫を追加する景品</h4>
-            <form class="addDataForm" method="post" action="{{ action('StockDataController@addStock')}}">
+            <form class="addDataForm" method="post" action="{{ action('StockDataController@addStock') }}">
                 @csrf
             </form>
 
@@ -56,16 +55,16 @@
     </div>
     <input class="add" type="button" value="追加" />
 
-    <!-- javascriptで呼び出して使う景品の味選択用セレクトタグ(結構不服) -->
+    <!-- javascriptで呼び出して使う景品の味選択用セレクトタグ -->
     @for ($i = 1; $i <= count($taste); $i++)
-
         <div class="{{ $i }}" style="display: none;">
             <select class="select" name="taste_name[]">
                     <option value="new">新しい味</option>
-                @for ($l = 0; $l < count($taste[$i]); $l++)
-
-                    <option value="{{ $taste[$i][$l] }}">{{ $taste[$i][$l] }}</option>
-                @endfor
+                @if (isset($taste[$i]))
+                    @for ($l = 0; $l < count($taste[$i]); $l++)
+                        <option value="{{ $taste[$i][$l] }}">{{ $taste[$i][$l] }}</option>
+                    @endfor
+                @endif
             </select>
         </div>
     @endfor

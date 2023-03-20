@@ -158,14 +158,14 @@ class InventoryController extends Controller
     {
         // 景品の情報と在庫の情報を取得
         $inventory = Inventory::whereId($id)->first();
-        $stocks_data = StockData::whereInventory_id($id)->orderBy('stock_data_id', 'asc')->get();
+        $stocks_data = StockData::whereInventory_id($id)->orderBy('stock_id', 'asc')->get();
 
-        // stockをstock_data_idごとに取得
-        $stocks_data_id_unique_count = StockData::whereInventory_id($id)->select('stock_data_id')->distinct()->get();
+        // stockをstock_idごとに取得
+        $stocks_id_unique_count = StockData::whereInventory_id($id)->select('stock_id')->distinct()->get();
 
-        for ($i = 0; $i < count($stocks_data_id_unique_count); $i++) {
+        for ($i = 0; $i < count($stocks_id_unique_count); $i++) {
 
-                $stocks[$stocks_data_id_unique_count[$i]['stock_data_id']] = Stock::whereId($stocks_data_id_unique_count[$i]['stock_data_id'])->orderBy('id', 'asc')->get();
+                $stocks[$stocks_id_unique_count[$i]['stock_id']] = Stock::whereId($stocks_id_unique_count[$i]['stock_id'])->orderBy('id', 'asc')->get();
         }
 
         // stocks_dataを表示する際stockとずれなく表示するための区切り取得
@@ -176,7 +176,7 @@ class InventoryController extends Controller
             $stock['limit_count'] = $this->getLimit_count($stock['limited_at']);
         }
 
-        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data', 'stocks_delimiter', 'stocks_data_id_unique_count'));
+        return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data', 'stocks_delimiter', 'stocks_id_unique_count'));
     }
 
     /**
@@ -191,27 +191,15 @@ class InventoryController extends Controller
         return view('layouts.inventoryOpe.edit', compact('inventory'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroyForm()
     {
-        //
+
+        return vies('layouts.inventoryOpe.destroy.stockDestroy')
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy() {
+
+        return redirect()->route('inventory.index')
     }
 
 
@@ -273,27 +261,27 @@ class InventoryController extends Controller
         return $limited_at;
     }
 
-    // stock_data_idごとに分けるための区切り取得
+    // stock_idごとに分けるための区切り取得
     public function getStock_dataDelimiter($stocks) {
 
-        // stock_data_idで分ける
+        // stock_idで分ける
         $check = [];
         for ($i = 0; $i < count($stocks); $i++) {
 
-            $stock_data_id = $stocks[$i]['stock_data_id'];
+            $stock_id = $stocks[$i]['stock_id'];
 
             // rowspan=>テーブルレイアウトで表示する際に使用
             // count=>rowspanを設定する<td>を指定する際に使用
-            // 初めて出るstock_data_idの時
-            if (!array_key_exists($stock_data_id, $check)) {
-                $check[$stock_data_id]['rowspan'] = 1;
-                $check[$stock_data_id]['count'] = $i;
+            // 初めて出るstock_idの時
+            if (!array_key_exists($stock_id, $check)) {
+                $check[$stock_id]['rowspan'] = 1;
+                $check[$stock_id]['count'] = $i;
             } else {
-            // すでに出たstock_data_idの時
-                $check[$stock_data_id]['rowspan']++;
+            // すでに出たstock_idの時
+                $check[$stock_id]['rowspan']++;
             }
         }
-        
+
         return $check;
     }
 
