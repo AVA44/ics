@@ -24,6 +24,5 @@ Route::get('/addStock', 'StockDataController@addStockForm')->name('stock.addForm
 Route::post('/addStock', 'StockDataController@addStock');
 Route::get('/useStock', 'StockDataController@useStockForm')->name('stock.useForm');
 Route::post('/useStock', 'StockDataController@useStock');
-Route::post('/choiceStockDestroy', 'StockDataController@choiceStockDestroy')->name('stock.choiceDestroy');
-Route::post('/inventoryDestroy', 'InventoryController@destroy')->name('inventory.absentDestroy');
-Route::post('/stock_dataDestroy', 'StockDataController@destroy')->name('inventory.absentDestroy');
+Route::get('/inventoryDestroy', 'InventoryController@destroyForm')->name('inventory.destroyForm');
+Route::post('/inventoryDestroy', 'InventoryController@destroy')->name('inventory.destroy');

@@ -281,16 +281,4 @@ class StockDataController extends Controller
             return view('layouts.stockOpe.use.useStockConfirm', compact('name_conf', 'expired_at_conf', 'limited_at_conf', 'stock_conf'));
         }
     }
-
-    // 在庫の削除ページ
-    public function destroyForm() {
-
-        return vies('layouts.stockOpe.destroy.stockDestroy');
-    }
-
-    // 削除処理
-    public function destroy() {
-
-        return redirect()->route('inventory.index')
-    }
 }

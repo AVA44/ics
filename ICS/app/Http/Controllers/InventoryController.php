@@ -193,13 +193,39 @@ class InventoryController extends Controller
 
     public function destroyForm()
     {
+        $inventories = Inventory::all();
+        $categories = $this->getCategory($inventories);
 
-        return vies('layouts.inventoryOpe.destroy.stockDestroy')
+        //各景品の一番早いexpired_atを取得
+        $i = 0;
+        foreach($inventories as $inventory) {
+
+            $stocks = StockData::where('inventory_id', '=', $inventory->id)->get();
+            foreach ($stocks as $stock) {
+                $value[] = $stock->expired_at;
+            }
+            if (count($value) >= 1) {
+                $inventories[$i]['expired_at'] = min($value);
+            } else {
+                $inventories[$i]['expired_at'] =  '////';
+            }
+            $value = array();
+            $i++;
+        }
+
+        return view('layouts.inventoryOpe.destroy', compact('inventories', 'categories'));
     }
 
-    public function destroy() {
+    public function destroy(Request $request)
+    {
+        $des_inventory_id = $request->destroy;
 
-        return redirect()->route('inventory.index')
+        // Inventory削除
+        for ($i = 0; $i < count($des_inventory_id); $i++) {
+            Inventory::destroy($des_inventory_id[$i]);
+        }
+
+        return redirect()->route('inventory.index');
     }
 
 

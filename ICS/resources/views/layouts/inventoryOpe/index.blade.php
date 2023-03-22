@@ -59,6 +59,4 @@
             @endforeach
         </table>
     </div>
-    <script>
-    </script>
 @endsection
