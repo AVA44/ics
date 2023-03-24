@@ -3,6 +3,7 @@
     "/js/addStockAjax.js": "/js/addStockAjax.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/destroy.js": "/js/destroy.js",
     "/js/index.js": "/js/index.js",
     "/js/indexAjax.js": "/js/indexAjax.js",
     "/js/useStock.js": "/js/useStock.js",
