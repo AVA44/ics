@@ -1,7 +1,10 @@
 @extends('template.app')
 
 @section('title', '新景品追加')
-@section('pageCss', '')
+
+@section('pageJs')
+    <script src="{{ mix('js/create.js') }}"></script>
+@endsection
 
 @section('content')
 
@@ -9,7 +12,7 @@
     <h2 id="create_top">新景品追加</h3>
     <a href="{{ route('inventory.index') }}">戻る</a>
 
-    <form id="create_form" method="post" action="{{ route('inventory.store') }}">
+    <form id="create_form" method="post" enctype="multipart/form-data" action="{{ route('inventory.store') }}">
         @csrf
         <div class="create_form_content required">
             <label for="name">景品名：</label>
@@ -38,7 +41,8 @@
         </div>
         <div class="create_form_content">
             <label for="image_url">画像：</label>
-            <input class="image_url" name="image_url" type="file" />
+            <input class="image_url" name="image_url" accept='image/*' type="file" />
+            <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
         </div>
         <input type="submit" value="作成" />
         <input type="button" value="取消" />

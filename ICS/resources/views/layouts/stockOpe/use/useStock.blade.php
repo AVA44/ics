@@ -31,7 +31,6 @@
                     <th>在庫の総数</th>
                     <th>選択</th>
                 </tr>
-
                 @for ($i = 0; $i < count($inventories); $i++)
                     @if (isset($inventories[$i]))
                         <tr class="tableData">
@@ -67,12 +66,12 @@
 
     <div class="choice_field_material" style="display:none">
         @for ($i = 0; $i < count($stocks_data); $i++)
-            @if (isset($stocks_data[$i]))
-                <div class="{{ $i + 1 }}">
+            @if (isset($stocks_data[0]))
+                <div class="{{ $stocks_data[$i][0]['inventory_id'] }}">
                     <table border="1">
                         @for ($l = 0; $l < count($stocks_data[$i]); $l++)
                             <tr>
-                                <input class="inventory_id" type="hidden" name="inventory_id[]" value="{{ $i + 1 }}" />
+                                <input class="inventory_id" type="hidden" name="inventory_id[]" value="{{ $stocks_data[$i][0]['inventory_id'] }}" />
                                 <input class="stock_id" type="hidden" name="stock_id[]" value="{{ $stocks_data[$i][$l]->stock_id }}" />
                                 <input type="hidden" name="expired_at[]" value="{{ $stocks_data[$i][$l]->expired_at }}" />
                                 <input type="hidden" name="limited_at[]" value="{{ $stocks_data[$i][$l]->limited_at }}" />
@@ -80,10 +79,10 @@
                                 <td>{{ $stocks_data[$i][$l]->limited_at }}</td>
                                 @if ($stocks_data_delimiters[$i][$stocks_data[$i][$l]['stock_id']]['count'] == $l)
                                     <td class="max" rowspan="{{ $stocks_data_delimiters[$i][$stocks_data[$i][$l]['stock_id']]['rowspan'] }}">
-                                        {{ $stocks[$stocks_data[$i][$l]['inventory_id']-1][$stocks_data[$i][$l]['stock_id']][0]['stock'] }}
+                                        {{ $stocks[$stocks_data[$i][$l]['inventory_id']][$stocks_data[$i][$l]['stock_id']][0]['stock'] }}
                                     </td>
                                     <td rowspan="{{ $stocks_data_delimiters[$i][$stocks_data[$i][$l]['stock_id']]['rowspan'] }}">
-                                        <input class="use_stock" type="number" name="use_stock[]" min="1" max="{{ $stocks[$stocks_data[$i][$l]['inventory_id']-1][$stocks_data[$i][$l]['stock_id']][0]['stock'] }}" />
+                                        <input class="use_stock" type="number" name="use_stock[]" min="1" max="{{ $stocks[$stocks_data[$i][$l]['inventory_id']][$stocks_data[$i][$l]['stock_id']][0]['stock'] }}" />
                                     </td>
                                 @else
                                     <input type="hidden" name="use_stock[]" value="0" />

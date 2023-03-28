@@ -41,6 +41,6 @@
         <p>１箱の入り数：{{ $inventory->parchase }}</p>
         <p>単価：{{ $inventory->unit_price }}</p>
         <p>ランク：{{ $inventory->lank }}</p>
-        <p>画像：{{ $inventory->image_url }}</p>
+        <p>画像：<img class="inventory_img" src="data:image/png;base64,{{ $inventory->image_url }}"></p>
     </div>
 @endsection

@@ -40,7 +40,7 @@ class StockDataController extends Controller
             // taste_name振り分け
             // 新しい味の時
             if ($request->taste_name[$i] == 'new') {
-                $taste= $request->new_taste_name[$i];
+                $taste = $request->new_taste_name[$i];
 
             // すでにある味の時
             } else {
@@ -68,8 +68,9 @@ class StockDataController extends Controller
                 $limited_at_conf[] = $limited_at;
                 $taste_name_conf[] = $taste;
                 $stock_conf[] = $stock_if->stock;
-            } else {
+
             // ない場合　在庫情報新規作成
+            } else {
 
                 // 紐付け用のstock_id取得
                 if ($request->stock[$i] != 0) {
@@ -120,7 +121,7 @@ class StockDataController extends Controller
 
         // inventory_idごとのstock情報をidごとに分けた情報
             for ($l = 0; $l < count($stocks_data[$i]); $l++) {
-                $stocks[$i][$stocks_data[$i][$l]['stock_id']] =
+                $stocks[$stocks_data[$i][$l]['inventory_id']][$stocks_data[$i][$l]['stock_id']] =
                     Stock::whereInventory_id($inventories[$i]['id'])
                         ->whereId($stocks_data[$i][$l]['stock_id'])
                         ->get();
@@ -247,7 +248,6 @@ class StockDataController extends Controller
             for ($i = 0; $i < count($use_stock); $i++) {
                 $use_stock[$i] = intval($use_stock[$i]);
             }
-
             for ($i = 0; $i < count($inventory_id); $i++) {
 
                 // stock使用分を減算
@@ -256,17 +256,15 @@ class StockDataController extends Controller
                     'stock' => ($stock->stock) - ($use_stock[$i])
                 ]);
 
+                // 確認画面用の景品名と減算後のストック数を取得
+                $name_conf[] = Inventory::select('name')->find($inventory_id[$i])->name;
+                $stock_conf[] = $stock->stock;
+
                 // 在庫０のstock_dataとstockを削除
                 if ($stock->stock <= 0) {
                     $del_sd = StockData::whereInventory_id($inventory_id[$i])->whereStock_id($stock_id[$i])->delete();
                     $del_s = Stock::find($stock_id[$i])->delete();
-
-                    // dd($del_sd, $del_s);
                 }
-
-                // 確認画面用の景品名と減算後のストック数を取得
-                $name_conf[] = Inventory::select('name')->find($inventory_id[$i])->name;
-                $stock_conf[] = $stock->stock;
             }
 
             return view('layouts.stockOpe.use.useStockConfirm', compact('name_conf', 'expired_at_conf', 'limited_at_conf', 'stock_conf'));

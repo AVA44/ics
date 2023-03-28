@@ -6,6 +6,9 @@ $(function() {
         let name = $(this).closest('tr').children("td")[1].innerText;
         let category_name = $(this).closest('tr').children("td")[2].innerText;
         let select = $('.' + id).html();
+        if (typeof select == 'undefined') {
+           select = '<select class="select" name="taste_name[]"><option value="new">新しい味</option></select>';
+        };
 
         $('.addDataForm').append('\
             <div class="add_data" style="display: flex;">\
@@ -33,6 +36,9 @@ $(function() {
     $(document).on('click', '.add_taste', function() {
         let id = $(this).closest('tr').children("td")[0].innerText;
         let select = $('.' + id).html();
+        if (typeof select == 'undefined') {
+           select = '<select class="select" name="taste_name[]"><option value="new">新しい味</option></select>';
+        };
 
         $('.addDataForm').append('\
             <div class="add_data" style="display: flex;">\

@@ -96,8 +96,12 @@ class InventoryController extends Controller
         foreach($inventories as $inventory) {
 
             $stocks = StockData::where('inventory_id', '=', $inventory->id)->get();
-            foreach ($stocks as $stock) {
-                $value[] = $stock->expired_at;
+            if (count($stocks) > 0) {
+                foreach ($stocks as $stock) {
+                    $value[] = $stock->expired_at;
+                }
+            } else {
+                $value = array();
             }
             if (count($value) >= 1) {
                 $inventories[$i]['expired_at'] = min($value);
@@ -135,6 +139,8 @@ class InventoryController extends Controller
     {
         $unit_price = floor($request->box_price / $request->parchase);
         $lank = $this->getLank($unit_price);
+        $image_url = base64_encode(file_get_contents($request->image_url->getRealPath()));
+
         $inventory = Inventory::create([
             'name' => $request->name,
             'category_name' => $request->category_name,
@@ -142,7 +148,7 @@ class InventoryController extends Controller
             'box_price' => $request->box_price,
             'unit_price' => $unit_price,
             'lank' => $lank,
-            'image_url' => $request->image_url
+            'image_url' => $image_url
         ]);
 
         return redirect()->route('inventory.index');
@@ -179,18 +185,6 @@ class InventoryController extends Controller
         return view('layouts.inventoryOpe.show', compact('inventory', 'stocks', 'stocks_data', 'stocks_delimiter', 'stocks_id_unique_count'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $inventory = Inventory::whereId($id)->get();
-        return view('layouts.inventoryOpe.edit', compact('inventory'));
-    }
-
     public function destroyForm()
     {
         $inventories = Inventory::all();
@@ -201,8 +195,12 @@ class InventoryController extends Controller
         foreach($inventories as $inventory) {
 
             $stocks = StockData::where('inventory_id', '=', $inventory->id)->get();
-            foreach ($stocks as $stock) {
-                $value[] = $stock->expired_at;
+            if (count($stocks) > 0) {
+                foreach ($stocks as $stock) {
+                    $value[] = $stock->expired_at;
+                }
+            } else {
+                $value = array();
             }
             if (count($value) >= 1) {
                 $inventories[$i]['expired_at'] = min($value);
@@ -273,7 +271,7 @@ class InventoryController extends Controller
                 $lank = 'F';
                 break;
             default:
-                $lank = '';
+                $lank = 'noLank';
                 break;
         };
 

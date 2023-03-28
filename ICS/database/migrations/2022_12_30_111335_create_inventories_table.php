@@ -20,8 +20,8 @@ class CreateInventoriesTable extends Migration
             $table->smallInteger('parchase');
             $table->mediumInteger('box_price');
             $table->mediuminteger('unit_price');
-            $table->string('lank', 5)->default('ランクなし');
-            $table->binary('image_url')->nullable();
+            $table->string('lank', 6);
+            $table->longText('image_url')->nullable();
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
