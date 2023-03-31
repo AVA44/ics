@@ -40,7 +40,7 @@
                             <td>{{ $expired_at[$i] }}</td>
                             <td>{{ $limited_at[$i] }}</td>
                             <td>{{ $stockSum[$i] }}</td>
-                            <td><input class="choice" type="button" value="選択" /></td>
+                            <td><input class="choice choice{{ $inventories[$i]->id }}" type="button" value="選択" /></td>
                         </tr>
                     @endif
                 @endfor

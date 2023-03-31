@@ -11116,10 +11116,11 @@ return jQuery;
                 <h4>' + name + '</h4>\
                 <div class="box_data">' + choiceTable + '</div>\
                 <div>\
-                    <input class="cancel" type="button" value="×" />\
+                    <input class="cancel ' + inventoryId + '" type="button" value="×" />\
                 </div>\
             </div>\
         ');
+    $(this).prop('disabled', true);
   });
 
   // use_stock入力時最小値、最大値をそれぞれ超えたときに最小値最大値に置き換える
@@ -11142,6 +11143,10 @@ return jQuery;
   // 選択キャンセル
   $(document).on('click', '.cancel', function () {
     $(this).closest('.use_data').remove();
+
+    // 選択ボタンを再度押せるように
+    var id = $(this).attr('class').split(' ');
+    $('.choice' + id[1]).prop('disabled', false);
   });
 
   // 登録ボタンを押したらフォーム送信
