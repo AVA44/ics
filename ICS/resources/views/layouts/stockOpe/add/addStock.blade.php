@@ -36,8 +36,8 @@
                         <td style="display: none">{{ $inventory->id }}</td>
                         <td>{{ $inventory->name }}</td>
                         <td>{{ $inventory->category_name }}</td>
-                        <td><input class="choice" type="button" value="選択" /></td>
-                        <td><input class="add_taste" type="button" value="追加" /></td>
+                        <td><input class="choice_btn choice{{ $inventory->id }}" type="button" value="選択" /></td>
+                        <td><input class="add_taste_btn add_taste{{ $inventory->id }}" type="button" value="味追加" disabled /></td>
                     </tr>
                 @endforeach
             </table>
@@ -57,7 +57,7 @@
 
     <!-- javascriptで呼び出して使う景品の味選択用セレクトタグ -->
     @for ($i = 1; $i <= count($taste); $i++)
-        <div class="{{ $i }}" style="display: none;">
+        <div class="taste{{ $i }}" style="display: none;">
             <select class="select" name="taste_name[]">
                     <option value="new">新しい味</option>
                 @if (isset($taste[$i]))

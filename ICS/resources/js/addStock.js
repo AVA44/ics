@@ -1,49 +1,58 @@
 $(function() {
 
-    // 選択したデータ表示
-    $(document).on('click', '.choice', function() {
+    // 選択した景品情報表示
+    $(document).on('click', '.choice_btn', function() {
+
+        // 選択した景品の情報を取得
         let id = $(this).closest('tr').children("td")[0].innerText;
         let name = $(this).closest('tr').children("td")[1].innerText;
         let category_name = $(this).closest('tr').children("td")[2].innerText;
-        let select = $('.' + id).html();
+        let select = $('.taste' + id).html();
         if (typeof select == 'undefined') {
            select = '<select class="select" name="taste_name[]"><option value="new">新しい味</option></select>';
         };
 
+        // 景品のフィールドを作って入力欄作成
         $('.addDataForm').append('\
-            <div class="add_data" style="display: flex;">\
-                <div class="input" style="display: flex;">\
-                    <p>・</p>\
-                    <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
-                    <p>' + name + '</p>\
-                    <p>' + category_name + '</p>\
-                    <label>味：</label>' + select + '\
-                    <div class="new_taste">\
-                        <input class="taste_input" type="text" name="new_taste_name[]" />\
+            <div class="field' + id + ' fields">\
+                <p>' + name + '</p>\
+                <p>' + category_name + '</p>\
+                <label>納品個数:</label><input type="number" name="stock[]" />\
+                <input class="inventory_cancel ' + id + '" type="button" value="×" />\
+                <div class="add_data' + id + '" style="display: flex;">\
+                    <div class="input" style="display: flex;">\
+                        <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
+                        <label>味：</label>' + select + '\
+                        <div class="new_taste">\
+                            <input class="taste_input" type="text" name="new_taste_name[]" />\
+                        </div>\
+                        <label>賞味期限:</label><input type="date" name="expired_at[]" />\
                     </div>\
-                    <label>賞味期限:</label><input type="date" name="expired_at[]" />\
-                    <label>納品個数:</label><input type="number" name="stock[]" />\
-                </div>\
-                <div>\
-                    <input class="cancel" type="button" value="×" />\
+                    <div>\
+                        <input class="cancel ' + id + '" type="button" value="×" />\
+                    </div>\
                 </div>\
             </div>\
         ');
+
+        // 同じ景品を選択できないように.choiceにdisabled trueを設定
+        $(this).prop('disabled', true);
+
+        // 味追加ボタンを押せるように.add_tasteにdisabled falseを設定
+        $('.add_taste' + id).prop('disabled', false);
     });
 
-    // 景品選択されていない時に味追加を押せないようにしたい。選択で景品ごとの箱を作る。箱がなければ味追加できないようにする。
     // 味追加
-    $(document).on('click', '.add_taste', function() {
+    $(document).on('click', '.add_taste_btn', function() {
         let id = $(this).closest('tr').children("td")[0].innerText;
-        let select = $('.' + id).html();
+        let select = $('.taste' + id).html();
         if (typeof select == 'undefined') {
            select = '<select class="select" name="taste_name[]"><option value="new">新しい味</option></select>';
         };
 
-        $('.addDataForm').append('\
-            <div class="add_data" style="display: flex;">\
+        $('.field' + id).append('\
+            <div class="add_data' + id + '" style="display: flex;">\
                 <div class="input" style="display: flex;">\
-                    <p>・</p>\
                     <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
                     <p></p>\
                     <p></p>\
@@ -55,15 +64,29 @@ $(function() {
                     <input type="hidden" name="stock[]" value="0" />\
                 </div>\
                 <div>\
-                    <input class="cancel" type="button" value="×" />\
+                    <input class="cancel ' + id + '" type="button" value="×" />\
                 </div>\
             </div>\
-        ')
+        ');
     })
 
-    // 選択キャンセル
+    // 景品選択解除
+    $(document).on('click', '.inventory_cancel', function() {
+
+        // 選択解除
+        $(this).closest('.fields').remove();
+
+        // 選択し直せるようにdisabled解除、味追加ボタンは押せない用事disabled登録
+        let id = $(this).attr('class').split(' ');
+        $('.choice' + id[1]).prop('disabled', false);
+        $('.add_taste' + id[1]).prop('disabled', true);
+    });
+
+    // 追加景品情報入力欄１つ削除
     $(document).on('click', '.cancel', function() {
-        $(this).closest('.add_data').remove();
+        let id = $(this).attr('class').split(' ');
+
+        $(this).closest('.add_data' + id[1]).remove();
     });
 
     // select boxで’新しい味’が選択されている時text boxを表示
