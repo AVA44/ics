@@ -71,7 +71,6 @@ class StockDataController extends Controller
 
             // ない場合　在庫情報新規作成
             } else {
-
                 // 紐付け用のstock_id取得
                 if ($request->stock[$i] != 0) {
                     $stock = Stock::create([
@@ -143,6 +142,7 @@ class StockDataController extends Controller
             }
         }
 
+
         // 該当するinventoryデータ削除
         $inventories_count = count($inventories);
         for ($i = 0; $i < $inventories_count; $i++) {
@@ -159,6 +159,10 @@ class StockDataController extends Controller
             }
             $i++;
         }
+
+        // index振り直し
+        $inventories = $inventories->values();
+        $stocks_data = array_values($stocks_data);
 
         // 景品ごとの一番早い賞味期限とその使用期限
         for ($i = 0; $i < count($stocks_data); $i++) {
@@ -185,12 +189,17 @@ class StockDataController extends Controller
             }
         }
 
+        // index振り直し
+        // $expired_at = array_values($expired_at);
+        // $limited_at = array_values($limited_at);
+
         // 景品ごとの在庫の合計一覧
         $inventory_keys = array_keys($inventories->toArray());
         $stockSum = [];
         $i = 0;
         foreach ($stocks as $stock) {
             foreach ($stock as $stock_value) {
+
                 // 景品ごとに在庫加算
                 // ひとつめ
                 if (empty($stockSum[$inventory_keys[$i]])) {
@@ -203,6 +212,16 @@ class StockDataController extends Controller
             };
             $i++;
         }
+        // index振り直し
+        // $stockSum = array_values($stockSum);
+        // dd($stockSum, $inventories, $expired_at);
+
+        // index振り直し
+        // $inventories = $inventories->values();
+        // $stocks_data = array_values($stocks_data);
+        // $expired_at = array_values($expired_at);
+        // $limited_at = array_values($limited_at);
+        // $stockSum = array_values($stockSum);
 
         // 選択されたものの表示に使う情報([]は作成済)
         // [$inventories], [$stocks_data], [$stocks], $stocks_data_delimiters

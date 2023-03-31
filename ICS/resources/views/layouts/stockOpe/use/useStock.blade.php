@@ -44,6 +44,8 @@
                         </tr>
                     @endif
                 @endfor
+
+
             </table>
         </div>
 
@@ -66,7 +68,7 @@
 
     <div class="choice_field_material" style="display:none">
         @for ($i = 0; $i < count($stocks_data); $i++)
-            @if (isset($stocks_data[0]))
+            @if (isset($stocks_data[$i]))
                 <div class="{{ $stocks_data[$i][0]['inventory_id'] }}">
                     <table border="1">
                         @for ($l = 0; $l < count($stocks_data[$i]); $l++)
