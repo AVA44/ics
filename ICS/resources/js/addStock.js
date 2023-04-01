@@ -17,16 +17,16 @@ $(function() {
             <div class="field' + id + ' fields">\
                 <p>' + name + '</p>\
                 <p>' + category_name + '</p>\
-                <label>納品個数:</label><input type="number" name="stock[]" />\
+                <label>納品個数:</label><input class="empty_alert addInput" type="number" name="stock[]" min=0 />\
                 <input class="inventory_cancel ' + id + '" type="button" value="×" />\
                 <div class="add_data' + id + '" style="display: flex;">\
                     <div class="input" style="display: flex;">\
                         <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
                         <label>味：</label>' + select + '\
                         <div class="new_taste">\
-                            <input class="taste_input" type="text" name="new_taste_name[]" />\
+                            <input class="empty_alert addInput" type="text" name="new_taste_name[]" />\
                         </div>\
-                        <label>賞味期限:</label><input type="date" name="expired_at[]" />\
+                        <label>賞味期限:</label><input class="empty_alert addInput" type="date" name="expired_at[]" />\
                     </div>\
                     <div>\
                         <input class="cancel ' + id + '" type="button" value="×" />\
@@ -58,9 +58,9 @@ $(function() {
                     <p></p>\
                     <label>味：</label>' + select + '\
                     <div class="new_taste">\
-                        <input class="taste_input" type="text" name="new_taste_name[]" />\
+                        <input class="empty_alert addInput" type="text" name="new_taste_name[]" />\
                     </div>\
-                    <label>賞味期限:</label><input type="date" name="expired_at[]" />\
+                    <label>賞味期限:</label><input class="empty_alert addInput" type="date" name="expired_at[]" />\
                     <input type="hidden" name="stock[]" value="0" />\
                 </div>\
                 <div>\
@@ -94,13 +94,31 @@ $(function() {
         let option = $(this).val();
         if (option == 'new') {
             $(this).nextAll('.new_taste:first').css('display', 'block');
+            $(this).nextAll('.new_taste:first').find('.addInput').addClass('empty_alert');
         } else {
             $(this).nextAll('.new_taste:first').css('display', 'none');
+            $(this).nextAll('.new_taste:first').find('.addInput').removeClass('empty_alert');
+        }
+    });
+
+    // inputが全て入力
+      // フォーム送信ボタンされているかの確認
+    $(document).on('change', '.addInput', function() {
+        let inputVal = $(this).val();
+
+        if (inputVal == '') {
+            $(this).addClass('empty_alert');
+        } else if (inputVal != '') {
+            $(this).removeClass('empty_alert');
         }
     });
 
     // フォーム送信ボタン
     $('.add').on('click', function() {
-        $('.addDataForm').submit();
-    });
+        if (typeof $('.empty_alert').val() == 'undefined') {
+            $('.addDataForm').submit();
+        } else {
+            alert('入力されてない項目があります！');
+        }
+    })
 })
