@@ -11,6 +11,7 @@
     @for ($i = 0; $i < count($name_conf); $i++)
         <div class="confilm_container" style="display: flex;">
             <p>{{ $name_conf[$i] }} /</p>
+            <p>{{ $taste_name_conf[$i] }} /</p>
             <p>{{ $expired_at_conf[$i] }} /</p>
             <p>{{ $limited_at_conf[$i] }} /</p>
             <p>{{ $stock_conf[$i] }}</p>

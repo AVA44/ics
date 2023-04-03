@@ -50,8 +50,8 @@ class StockDataController extends Controller
             // limited_at作成 賞味期限の４５日前
             $limited_at = date('Y-m-d', strtotime("{$request->expired_at[$i]} -45 day"));
 
-            // 同じ景品、味、賞味期限のものがある場合、ない場合で分岐
-            $update_if = StockData::whereInventory_id($request->inventory_id)->whereTaste_name($taste)->whereExpired_at($request->expired_at[$i])->first();
+            // 景品、味、賞味期限が同じものがある場合、ない場合で分岐
+            $update_if = StockData::whereInventory_id($request->inventory_id[$i])->whereTaste_name($taste)->whereExpired_at($request->expired_at[$i])->first();
 
             // ある場合 在庫加算
             if (isset($update_if)) {
@@ -63,21 +63,32 @@ class StockDataController extends Controller
                 ]);
 
                 // 確認画面で使用
-                $name_conf[] = Inventory::select('name')->whereid($request->inventory_id)->get()[0]->name;
+                $name_conf[] = Inventory::select('name')->whereid($request->inventory_id[$i])->get()[0]->name;
                 $expired_at_conf[] = $request->expired_at[$i];
                 $limited_at_conf[] = $limited_at;
                 $taste_name_conf[] = $taste;
-                $stock_conf[] = $stock_if->stock;
+
+                // 一つに景品で複数の味を追加したときは一度だけ表示
+                if ($request->stock[$i] != "0") {
+                    $stock_conf[] = $request->stock[$i];
+                } else {
+                    $stock_conf[] = "";
+                };
 
             // ない場合　在庫情報新規作成
             } else {
-                // 紐付け用のstock_id取得
-                if ($request->stock[$i] != 0) {
+
+                // 紐付け用のstockテーブルのinventory_id取得
+                if ($request->stock[$i] != "0") {
                     $stock = Stock::create([
                         'inventory_id' => $request->inventory_id[$i],
                         'stock' => $request->stock[$i]
                     ]);
                     $stock_id = Stock::select('id')->max('id');
+                    echo $stock_id ."追加";
+                } else {
+                    $stock_id = Stock::select('id')->max('id');
+                    echo $stock_id . "未追加";
                 }
 
                 // レコード作成
@@ -90,11 +101,17 @@ class StockDataController extends Controller
                 ]);
 
                 // 確認画面で使用
-                $name_conf[] = Inventory::select('name')->whereid($request->inventory_id)->get()[0]->name;
+                $name_conf[] = Inventory::select('name')->whereid($request->inventory_id[$i])->get()[0]->name;
                 $expired_at_conf[] = $request->expired_at[$i];
                 $limited_at_conf[] = $limited_at;
                 $taste_name_conf[] = $taste;
-                $stock_conf[] = $stock->stock;
+
+                // 一つに景品で複数の味を追加したときは一度だけ表示
+                if ($request->stock[$i] != "0") {
+                    $stock_conf[] = $request->stock[$i];
+                } else {
+                    $stock_conf[] = "";
+                };
 
             }
         }
@@ -212,16 +229,6 @@ class StockDataController extends Controller
             };
             $i++;
         }
-        // index振り直し
-        // $stockSum = array_values($stockSum);
-        // dd($stockSum, $inventories, $expired_at);
-
-        // index振り直し
-        // $inventories = $inventories->values();
-        // $stocks_data = array_values($stocks_data);
-        // $expired_at = array_values($expired_at);
-        // $limited_at = array_values($limited_at);
-        // $stockSum = array_values($stockSum);
 
         // 選択されたものの表示に使う情報([]は作成済)
         // [$inventories], [$stocks_data], [$stocks], $stocks_data_delimiters
