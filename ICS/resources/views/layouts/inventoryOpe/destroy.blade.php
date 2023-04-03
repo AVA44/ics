@@ -57,7 +57,7 @@
                     <td>{{ $inventory->expired_at }}</td>
                     <td>{{ $limited_at }}</td>
                     <td>{{ $limit_count }}</td>
-                    <td><input class="destroy_choice" type="button" value="選択" /></td>
+                    <td><input class="destroy_choice desBtn{{ $inventory->id }}" type="button" value="選択" /></td>
                 </tr>
             @endforeach
         </table>
