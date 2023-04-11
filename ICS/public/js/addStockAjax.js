@@ -11111,10 +11111,10 @@ var nowTime = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate
 now = new Date(nowTime).setUTCHours(24);
 ;
 $(function () {
-  $('.orderBtn').on('click', function () {
+  $('#orderBtn').on('click', function () {
     // テーブルリセット
     $('.tableData').each(function (index, tableData) {
-      $(tableData).remove();
+      $('.tableData').remove();
     });
 
     // ajax データ取得
@@ -11122,8 +11122,8 @@ $(function () {
       url: '/ajax',
       type: 'POST',
       data: {
-        'name_search': $('.name_search').val(),
-        'cate_search': $('.cate_search').val()
+        'name_search': $('.name_search_input').val(),
+        'cate_search': $('.cate_search_input').val()
       },
       dataType: 'json',
       cache: true
@@ -11135,14 +11135,15 @@ $(function () {
       obj.forEach(function (o) {
         var tableDataLayout = function tableDataLayout() {
           return '\
-                      <tr class="tableData">\
-                          <td style="display: none">' + o.id + '</td>\
-                          <td>' + o.name + '</a></td>\
-                          <td>' + o.category_name + '</td>\
-                          <td><input class="choice" type="button" value="選択" /></td>\
-                      </tr>';
+          <tr class="tableData">\
+            <td style="display: none">' + o.id + '</td>\
+            <td>' + o.name + '</a></td>\
+            <td>' + o.category_name + '</td>\
+            <td><input class="choice_btn choice' + o.id + '" type="button" value="選択" /></td>\
+            <td><input class="add_taste_btn add_taste' + o.id + '" type="button" value="味追加" disabled /></td>\
+          </tr>';
         };
-        $('.inventories_table').append(tableDataLayout());
+        $('#inventories_table').append(tableDataLayout());
       });
     })
 

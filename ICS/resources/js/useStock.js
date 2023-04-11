@@ -12,12 +12,12 @@ $(function() {
         let choiceTable = $('.' + inventoryId).html();
 
         // 表示
-        $('.useDataForm').append('\
-            <div class="use_data" style="display:flex;">\
-                <h4>' + name + '</h4>\
-                <div class="box_data">' + choiceTable + '</div>\
-                <div>\
-                    <input class="cancel ' + inventoryId + '" type="button" value="×" />\
+        $('#useDataForm').append('\
+            <div class="use_data">\
+                <h4 class="use_data_top">' + name + '</h4>\
+                ' + choiceTable + '\
+                <div class="use_data_cancel_box">\
+                    <input class="cancel ' + inventoryId + ' use_data_cancel" type="button" value="×" />\
                 </div>\
             </div>\
         ');
@@ -55,6 +55,6 @@ $(function() {
 
     // 登録ボタンを押したらフォーム送信
     $(document).on("click", ".use", function() {
-        $('.useDataForm').submit();
+        $('#useDataForm').submit();
     })
 })

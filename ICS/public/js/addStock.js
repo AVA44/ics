@@ -11106,34 +11106,37 @@ return jQuery;
     var id = $(this).closest('tr').children("td")[0].innerText;
     var name = $(this).closest('tr').children("td")[1].innerText;
     var category_name = $(this).closest('tr').children("td")[2].innerText;
-    var select = $('.taste' + id).html();
+    var select = $('#taste' + id).html();
     if (typeof select == 'undefined') {
-      select = '<select class="select" name="taste_name[]"><option value="new">新しい味</option></select>';
+      select = '<select class="select addInput" name="taste_name[]"><option value="new">新しい味</option></select>';
     }
     ;
 
     // 景品のフィールドを作って入力欄作成
-    $('.addDataForm').append('\
-            <div class="field' + id + ' fields">\
-                <p>' + name + '</p>\
-                <p>' + category_name + '</p>\
-                <label>納品個数:</label><input class="empty_alert addInput" type="number" name="stock[]" min=0 />\
-                <input class="inventory_cancel ' + id + '" type="button" value="×" />\
-                <div class="add_data' + id + '" style="display: flex;">\
-                    <div class="input" style="display: flex;">\
-                        <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
-                        <label>味：</label>' + select + '\
-                        <div class="new_taste">\
-                            <input class="empty_alert addInput" type="text" name="new_taste_name[]" />\
-                        </div>\
-                        <label>賞味期限:</label><input class="empty_alert addInput" type="date" name="expired_at[]" />\
-                    </div>\
-                    <div>\
-                        <input class="cancel ' + id + '" type="button" value="×" />\
-                    </div>\
-                </div>\
+    $('#addDataForm').append('\
+      <div class="field' + id + ' fields">\
+        <input class="inventory_cancel ' + id + '" type="button" value="×" />\
+        <h3>' + name + ' ' + category_name + '</h3>\
+        <div class="add_data_stock">\
+          <label>納品個数</label><span>：</span><input class="empty_alert addInput" type="number" name="stock[]" min=0 />\
+        </div>\
+        <div class="add_data' + id + '">\
+          <div class="add_data_input">\
+            <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
+            \
+            <label>味：</label>\
+            <div class="add_data_taste_input">\
+              ' + select + '\
+              <div class="new_taste">\
+                <input class="empty_alert addInput" type="text" name="new_taste_name[]" />\
+              </div>\
             </div>\
-        ');
+            <label>賞味期限</label><span>：</span><input class="empty_alert addInput" type="date" name="expired_at[]" max="9999-12-31" />\
+            \
+          </div>\
+        </div>\
+      </div>\
+    ');
 
     // 同じ景品を選択できないように.choiceにdisabled trueを設定
     $(this).prop('disabled', true);
@@ -11145,29 +11148,30 @@ return jQuery;
   // 味追加
   $(document).on('click', '.add_taste_btn', function () {
     var id = $(this).closest('tr').children("td")[0].innerText;
-    var select = $('.taste' + id).html();
+    var select = $('#taste' + id).html();
     if (typeof select == 'undefined') {
-      select = '<select class="select" name="taste_name[]"><option value="new">新しい味</option></select>';
+      select = '<select class="select addInput" name="taste_name[]"><option value="new">新しい味</option></select>';
     }
     ;
     $('.field' + id).append('\
-            <div class="add_data' + id + '" style="display: flex;">\
-                <div class="input" style="display: flex;">\
-                    <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
-                    <p></p>\
-                    <p></p>\
-                    <label>味：</label>' + select + '\
-                    <div class="new_taste">\
-                        <input class="empty_alert addInput" type="text" name="new_taste_name[]" />\
-                    </div>\
-                    <label>賞味期限:</label><input class="empty_alert addInput" type="date" name="expired_at[]" />\
-                    <input type="hidden" name="stock[]" value="0" />\
-                </div>\
-                <div>\
-                    <input class="cancel ' + id + '" type="button" value="×" />\
-                </div>\
+      <div class="add_data' + id + '">\
+        <div class="add_data_input">\
+          <input type="hidden" name="inventory_id[]" value="' + id + '"/>\
+          \
+          <label>味：</label>\
+          <div class="add_data_taste_input">\
+            ' + select + '\
+            <div class="new_taste">\
+              <input class="empty_alert addInput" type="text" name="new_taste_name[]" />\
             </div>\
-        ');
+          </div>\
+          <label>賞味期限</label><span>：</span><input class="empty_alert addInput" type="date" name="expired_at[]" max="9999-12-31" />\
+          \
+          <input type="hidden" name="stock[]" value="0" />\
+          <input class="cancel ' + id + '" type="button" value="×" />\
+        </div>\
+      </div>\
+    ');
   });
 
   // 景品選択解除
@@ -11199,23 +11203,29 @@ return jQuery;
     }
   });
 
-  // inputが全て入力
-  // フォーム送信ボタンされているかの確認
+  // inputが全て入力されているかの確認
   $(document).on('change', '.addInput', function () {
-    var inputVal = $(this).val();
-    if (inputVal == '') {
+    var addInput = $(this).val();
+    if (addInput == '') {
       $(this).addClass('empty_alert');
-    } else if (inputVal != '') {
+    } else if (addInput != '') {
       $(this).removeClass('empty_alert');
     }
   });
 
   // フォーム送信ボタン
-  $('.add').on('click', function () {
-    if (typeof $('.empty_alert').val() == 'undefined') {
-      $('.addDataForm').submit();
-    } else {
+  $('#add').on('click', function () {
+    // 景品を選択していない場合
+    if ($('.fields').length == 0) {
+      alert('追加する項目がありません！');
+
+      // 入力に不備がある場合
+    } else if (typeof $('.empty_alert').val() != 'undefined') {
       alert('入力されてない項目があります！');
+
+      // 送信
+    } else {
+      $('#addDataForm').submit();
     }
   });
 });

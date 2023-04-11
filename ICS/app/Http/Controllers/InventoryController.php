@@ -139,7 +139,11 @@ class InventoryController extends Controller
     {
         $unit_price = floor($request->box_price / $request->parchase);
         $lank = $this->getLank($unit_price);
-        $image_url = base64_encode(file_get_contents($request->image_url->getRealPath()));
+        if ($request->image_url != '') {
+            $image_url = base64_encode(file_get_contents($request->image_url->getRealPath()));
+        } else {
+            $image_url = "";
+        }
 
         $inventory = Inventory::create([
             'name' => $request->name,

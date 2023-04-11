@@ -2,6 +2,10 @@
 
 @section('title', '一覧')
 
+@section('pageCss')
+    <link rel="stylesheet" href="{{ asset('/css/all.css') }}"/>
+@endsection
+
 @section('pageJs')
     <script src="{{ mix('js/indexAjax.js') }}"></script>
 @endsection
@@ -20,7 +24,7 @@
 
     <!-- 景品一覧 -->
     <div id="inventories">
-        <table class="inventories_table" border="1">
+        <table id="inventories_table" border="1">
             <tr>
                 <th>景品名</th>
                 <th>カテゴリ</th>
@@ -47,8 +51,13 @@
                     };
                 @endphp
 
-                <tr class="tableData">
-                    
+                {{-- 使用期限31日前になった行の色を変える --}}
+                @if ($limit_count <= "31")
+                    <tr class="tableData limit_alert">
+                @else
+                    <tr class="tableData">
+                @endif
+
                     {{-- 在庫がある時 --}}
                     @if ($inventory->expired_at != '////')
                         <td><a href="{{ route('inventory.show', ['id' => $inventory->id]) }}">{{ $inventory->name }}</a></td>

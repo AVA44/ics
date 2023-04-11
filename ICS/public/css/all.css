@@ -1,0 +1,250 @@
+/* Ctrl + F　->「!!ファイル名」でcssを見たいファイルを検索 */
+
+
+/* 複数ファイル */
+#inventories_table {
+  text-align: center;
+  width: 50%;
+}
+
+.limit_alert {
+  background-color: #ff8c8c8c;
+}
+
+
+/* !!create.blade.php */
+#create_container {
+  display: flex;
+  align-items: center;
+  width: 60%;
+  height: 40%;
+}
+
+#create_form {
+  width: 50%;
+}
+
+.create_label {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  width: 5rem;
+  text-align-last: justify;
+}
+
+.create_input {
+  width: 150px;
+  height: 22px;
+}
+
+#preview {
+  height: 100%;
+  width: 100%;
+}
+
+#create_submit {
+  margin-top: 1rem;
+}
+
+
+/* !!show.blade.php */
+#show_table {
+  width: 50%;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-right: 4rem;
+}
+
+#show_data_container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#show_data_field {
+  width: 60%;
+  font-size: 1.1rem;
+}
+
+.show_datum {
+  display: flex;
+  align-items: center;
+  width: 16rem;
+  margin-bottom: 0.6rem;
+}
+
+.show_datum_title {
+  text-align-last: justify;
+  width: 24rem;
+}
+
+.show_datum_value {
+  text-align-last: justify;
+  width: 22rem;
+}
+
+#preview_field {
+  width: 40%;
+}
+
+.show_img_preview {
+  width: 90%;
+}
+
+
+/* !!destroy.blade.php */
+#destroy_container {
+  display: flex;
+}
+
+#inventories_destroy {
+  width: 50%;
+  margin-right: 4rem;
+}
+
+#inventories_destroy_table {
+  text-align: center;
+  margin-bottom: 1.4rem;
+  width: 100%;
+}
+
+#destroy_field {
+  width: 40%;
+}
+
+.desFields {
+  display: flex;
+}
+
+.destroy_inventory {
+  margin-right: 3rem;
+}
+
+.destroy_cancel {
+  width: 3.8rem;
+  height: 3.8rem;
+}
+
+
+/* !!addStock.blade.php */
+.tableData_id {
+  display: none;
+}
+
+.taste_select_container {
+  display: none;
+}
+
+#addStockContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#inventories_choice {
+  width: 40%;
+}
+
+#inventories_confirm {
+  width: 55%;
+}
+
+.fields {
+  position: relative;
+  width: 60%;
+  padding: 1rem;
+  border: 2px solid black;
+  margin-bottom: 1rem;
+}
+
+.field_top {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.add_data_stock {
+  margin-bottom: 1rem;
+}
+
+.add_data_input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.addInput {
+  width: 150px;
+  height: 22px;
+  margin-right: 0.6rem;
+}
+
+.inventory_cancel {
+  position: absolute;
+  top: 2.3rem;
+  right: 1.8rem;
+}
+
+.inventory_cancel .cancel {
+  width: 1rem;
+  height: 1rem;
+}
+
+#add {
+  margin: 1rem 0 0 1rem;
+}
+
+
+/* !!addStockConfirm.blade.php */
+#confirm_container {
+  display: flex;
+  font-size: 1.2rem;
+}
+
+
+/* !!useStock.blade.php */
+#useStockContainer {
+  display: flex;
+}
+
+#useStock_inventories_table {
+  width: 100%;
+}
+
+#choice_field {
+  margin-right: 4rem;
+}
+
+#useDataForm {
+  width: 50%;
+}
+
+#form_field_top, .use_data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  margin-right: 4rem;
+}
+
+#form_field_top_name, .use_data_top {
+  width: 12rem;
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+#form_field_top_table, .choice_field_table {
+  width: 55%;
+  text-align: center;
+}
+
+.form_field_top_table_td, .choice_field_table_td {
+  width: 5rem;
+}
+
+.use_stock {
+  width: 100%;
+}
+
+#empty_box, .use_data_cancel_box {
+  width: 3rem;
+  height: 3rem;
+}

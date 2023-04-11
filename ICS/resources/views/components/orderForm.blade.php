@@ -1,12 +1,19 @@
-<label for="name_search">名前検索：</label>
-<input class="name_search" name="name_search" type="text" />
+<div id="order_form">
 
-<label for="cate_search">カテゴリ検索：</label>
-<select class="cate_search" name="cate_search">
-    <option value="">カテゴリ選択</option>
-    @foreach ($categories as $category)
-        <option value="{{ $category }}">{{ $category }}</option>
-    @endforeach
-</select>
+    <div id="name_search">
+        <label for="name_search">名前検索 </label>
+        <input class="name_search_input search_input" name="name_search" type="text" />
+    </div>
 
-<button class="orderBtn">検索</button>
+    <div id="cate_search">
+        <label for="cate_search">カテゴリ検索 </label>
+        <select class="cate_search_input search_input" name="cate_search">
+            <option value="">カテゴリ選択</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category }}">{{ $category }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <button id="orderBtn">検索</button>
+</div>

@@ -5,13 +5,15 @@
 
 @section('content')
 
-        <h3>選択した景品</h3>
+    <h2>使用した景品</h2>
+    <h2>景品名 / 味 / 賞味期限 / 使用期限 / 追加数</h2>
 
     @if (count($name_conf) > 0)
+
         <!-- useStock.blade.phpで入力した入庫情報 -->
         <hr />
         @for ($i = 0; $i < count($name_conf); $i++)
-            <div class="confilm_container" style="display: flex;">
+            <div id="confirm_container">
                 <p>{{ $name_conf[$i] }} /</p>
                 <p>{{ $expired_at_conf[$i] }} /</p>
                 <p>{{ $limited_at_conf[$i] }} /</p>
@@ -22,5 +24,4 @@
     @else
         <h2>景品使用:なし</h2>
     @endif
-        <h1>成功</h1>
 @endsection

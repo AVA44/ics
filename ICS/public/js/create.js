@@ -11100,13 +11100,34 @@ return jQuery;
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {$(function () {
-  $('.image_url').on('change', function () {
-    var obj = $(this).prop('files')[0];
-    var fileReader = new FileReader();
-    fileReader.onload = function () {
-      document.getElementById('preview').src = fileReader.result;
-    };
-    fileReader.readAsDataURL(obj);
+  $('#image_url').on('change', function () {
+    if ($(this).val() == '') {
+      $('#preview').attr('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+    } else {
+      var obj = $(this).prop('files')[0];
+      var fileReader = new FileReader();
+      fileReader.onload = function () {
+        document.getElementById('preview').src = fileReader.result;
+      };
+      fileReader.readAsDataURL(obj);
+    }
+    ;
+  });
+  $('.required').on('change', function () {
+    var createInput = $(this).val();
+    if (typeof createInput == 'undifined') {
+      $(this).closest('.create_form_content').addClass('empty_alert');
+    } else {
+      $(this).closest('.create_form_content').removeClass('empty_alert');
+    }
+  });
+  $('#create_submit').on('click', function () {
+    var emptyAlert = $('.empty_alert').length;
+    if (emptyAlert == '0') {
+      $('#create_form').submit();
+    } else {
+      alert('入力されていない項目があります！');
+    }
   });
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

@@ -112,7 +112,6 @@ class StockDataController extends Controller
                 } else {
                     $stock_conf[] = "";
                 };
-
             }
         }
 
@@ -138,7 +137,7 @@ class StockDataController extends Controller
         // inventory_idごとのstock情報をidごとに分けた情報
             for ($l = 0; $l < count($stocks_data[$i]); $l++) {
                 $stocks[$stocks_data[$i][$l]['inventory_id']][$stocks_data[$i][$l]['stock_id']] =
-                    Stock::whereInventory_id($inventories[$i]['id'])
+                    Stock::whereInventory_id($stocks_data[$i][$l]['inventory_id'])
                         ->whereId($stocks_data[$i][$l]['stock_id'])
                         ->get();
             }
@@ -150,6 +149,7 @@ class StockDataController extends Controller
         // 在庫のない景品情報削除
         // $exist_stock_numに含まれない数字をidにもつinventoryデータ, データの入ってないstocks_dataを削除
         // $exist_stock_num作成
+
         $exist_stock_num = [];
         foreach ($stocks as $stock) {
             foreach($stock as $stock_value) {
@@ -158,7 +158,6 @@ class StockDataController extends Controller
                 }
             }
         }
-
 
         // 該当するinventoryデータ削除
         $inventories_count = count($inventories);
@@ -286,7 +285,7 @@ class StockDataController extends Controller
                 $name_conf[] = Inventory::select('name')->find($inventory_id[$i])->name;
                 $stock_conf[] = $stock->stock;
 
-                // 在庫０のstock_dataとstockを削除
+                // 在庫０のレコードをstock_dataとstockから削除
                 if ($stock->stock <= 0) {
                     $del_sd = StockData::whereInventory_id($inventory_id[$i])->whereStock_id($stock_id[$i])->delete();
                     $del_s = Stock::find($stock_id[$i])->delete();

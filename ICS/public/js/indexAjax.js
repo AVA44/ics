@@ -11111,10 +11111,10 @@ var nowTime = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate
 now = new Date(nowTime).setUTCHours(24);
 ;
 $(function () {
-  $('.orderBtn').on('click', function () {
+  $('#orderBtn').on('click', function () {
     // テーブルリセット
     $('.tableData').each(function (index, tableData) {
-      $(tableData).remove();
+      $('.tableData').remove();
     });
 
     // ajax データ取得
@@ -11122,8 +11122,8 @@ $(function () {
       url: '/ajax',
       type: 'POST',
       data: {
-        'name_search': $('.name_search').val(),
-        'cate_search': $('.cate_search').val()
+        'name_search': $('.name_search_input').val(),
+        'cate_search': $('.cate_search_input').val()
       },
       dataType: 'json',
       cache: true
@@ -11135,17 +11135,17 @@ $(function () {
       obj.forEach(function (o) {
         var tableDataLayout = function tableDataLayout() {
           return '\
-                    <tr class="tableData">\
-                        <td><a href="inventory/' + o.id + '">' + o.name + '</a></td>\
-                        <td>' + o.category_name + '</td>\
-                        <td>' + o.unit_price + '</td>\
-                        <td>' + o.lank + '</td>\
-                        <td>' + o.expired_at + '</td>\
-                        <td>' + o.limited_at + '</td>\
-                        <td>' + o.limit_count + '</td>\
-                    </tr>';
+          <tr class="tableData">\
+            <td><a href="inventory/' + o.id + '">' + o.name + '</a></td>\
+            <td>' + o.category_name + '</td>\
+            <td>' + o.unit_price + '</td>\
+            <td>' + o.lank + '</td>\
+            <td>' + o.expired_at + '</td>\
+            <td>' + o.limited_at + '</td>\
+            <td>' + o.limit_count + '</td>\
+          </tr>';
         };
-        $('.inventories_table').append(tableDataLayout());
+        $('#inventories_table').append(tableDataLayout());
       });
     })
 
