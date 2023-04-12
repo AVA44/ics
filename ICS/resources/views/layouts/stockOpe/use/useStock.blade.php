@@ -44,10 +44,13 @@
                         <td><input class="choice choice{{ $inventories[$i]->id }}" type="button" value="選択" /></td>
                     </tr>
                 @endif
+
             @endfor
+
         </table>
         </div>
 
+        <!-- 選択した景品を表示、送信するためのフォーム -->
         <form id="useDataForm" method="post" action="{{ action('StockDataController@useStock') }}">
             @csrf
             <h3>使用する景品と使用</h3>
@@ -91,12 +94,16 @@
                                 @else
                                     <input type="hidden" name="use_stock[]" value="0" />
                                 @endif
+
                             </tr>
                         @endfor
+
                     </table>
                 </div>
             @endif
+
         @endfor
+
     </div>
 
     <!-- 景品検索時に使用する景品ごとの在庫の総数 -->
@@ -105,7 +112,9 @@
             @if (isset($inventories[$i]))
                 <p id="stock_total_{{ $inventories[$i]['id']}}">{{ $stockSum[$i] }}</p>
             @endif
+
         @endfor
+        
     </div>
 
 @endsection

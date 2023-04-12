@@ -87,7 +87,6 @@ class InventoryController extends Controller
      */
     public function index()
     {
-
         $inventories = Inventory::all();
         $categories = $this->getCategory($inventories);
 
@@ -103,11 +102,13 @@ class InventoryController extends Controller
             } else {
                 $value = array();
             }
+
             if (count($value) >= 1) {
                 $inventories[$i]['expired_at'] = min($value);
             } else {
                 $inventories[$i]['expired_at'] =  '////';
             }
+
             $value = array();
             $i++;
         }
@@ -137,6 +138,17 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
+
+        // カテゴリ名が新しいものか既存のものかで振り分け
+        // 新しいもの
+        if ($request->category_name == 'new_category') {
+            $category = $request->new_category_name;
+
+        // 既存のもの
+        } else {
+            $category = $request->category_name;
+        }
+        dd($category);
         $unit_price = floor($request->box_price / $request->parchase);
         $lank = $this->getLank($unit_price);
         if ($request->image_url != '') {
@@ -147,7 +159,7 @@ class InventoryController extends Controller
 
         $inventory = Inventory::create([
             'name' => $request->name,
-            'category_name' => $request->category_name,
+            'category_name' => $category,
             'parchase' => $request->parchase,
             'box_price' => $request->box_price,
             'unit_price' => $unit_price,

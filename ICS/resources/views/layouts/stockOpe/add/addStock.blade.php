@@ -42,6 +42,7 @@
                         </td>
                     </tr>
                 @endforeach
+
             </table>
         </div>
 
@@ -51,10 +52,10 @@
             <form id="addDataForm" method="post" action="{{ action('StockDataController@addStock') }}">
                 @csrf
             </form>
-
         </div>
-
     </div>
+
+    <!-- フォーム送信ボタン -->
     <input id="add" type="button" value="追加" />
 
     <!-- javascriptで呼び出して使う景品の味選択用セレクトタグ -->
@@ -66,7 +67,9 @@
                     @for ($l = 0; $l < count($taste[$i]); $l++)
                         <option value="{{ $taste[$i][$l] }}">{{ $taste[$i][$l] }}</option>
                     @endfor
+
                 @endif
+
             </select>
         </div>
     @endfor

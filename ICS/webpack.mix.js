@@ -12,14 +12,13 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/index.js', 'public/js')
-    .js('resources/js/create.js', 'public/js')
-    .js('resources/js/addStock.js', 'public/js')
-    .js('resources/js/useStock.js', 'public/js')
-    .js('resources/js/destroy.js', 'public/js')
-    .js('resources/js/indexAjax.js', 'public/js')
-    .js('resources/js/addStockAjax.js', 'public/js')
-    .js('resources/js/useStockAjax.js', 'public/js')
+    .js('resources/js/inventoryOpe/create.js', 'public/js')
+    .js('resources/js/inventoryOpe/destroy.js', 'public/js')
+    .js('resources/js/stockOpe/add/addStock.js', 'public/js')
+    .js('resources/js/stockOpe/use/useStock.js', 'public/js')
+    .js('resources/js/ajax/indexAjax.js', 'public/js')
+    .js('resources/js/ajax/addStockAjax.js', 'public/js')
+    .js('resources/js/ajax/useStockAjax.js', 'public/js')
     .autoload( {
     "jquery": [ '$', 'window.jQuery' ],
 }  ).sass('resources/sass/app.scss', 'public/css');

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11092,10 +11092,10 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./resources/js/useStockAjax.js":
-/*!**************************************!*\
-  !*** ./resources/js/useStockAjax.js ***!
-  \**************************************/
+/***/ "./resources/js/ajax/useStockAjax.js":
+/*!*******************************************!*\
+  !*** ./resources/js/ajax/useStockAjax.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11165,14 +11165,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 8:
-/*!********************************************!*\
-  !*** multi ./resources/js/useStockAjax.js ***!
-  \********************************************/
+/***/ 7:
+/*!*************************************************!*\
+  !*** multi ./resources/js/ajax/useStockAjax.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/useStockAjax.js */"./resources/js/useStockAjax.js");
+module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/ajax/useStockAjax.js */"./resources/js/ajax/useStockAjax.js");
 
 
 /***/ })

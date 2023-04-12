@@ -22,6 +22,7 @@ $(function() {
             </div>\
         ');
 
+        // 同じ景品を選択できないようにdisabledを設定
         $(this).prop('disabled', true);
 
     })
@@ -29,16 +30,21 @@ $(function() {
     // use_stock入力時最小値、最大値をそれぞれ超えたときに最小値最大値に置き換える
     $(document).on("change", ".use_stock", function() {
 
-        // 最大値（在庫数）,最小値（１）,入力された値（入力されてなければ０）取得
+        // 最大値（在庫数）,最小値（１）,入力された値取得
         let max = $(this).attr("max");
         let min = $(this).attr("min");
         let useStock = $(this).val();
-        if (typeof( $(this).val() ) != "undefined") {
+
+        // 在庫の使用数が入力されていない時０
+        if (typeof(useStock) != "undefined") {
             let useStock = 0;
         }
 
+        // 入力されて使用数が最小値より小さい時最小値（１）に
         if (parseInt(useStock) < parseInt(min)) {
             $(this).val(min);
+
+        // 最大値より大きい時最大値に
         } else if (parseInt(useStock) > parseInt(max)) {
             $(this).val(max);
         };

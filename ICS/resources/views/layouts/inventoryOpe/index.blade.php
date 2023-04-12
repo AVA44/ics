@@ -34,7 +34,6 @@
                 <th>使用期限</th>
                 <th>残り日数</th>
             </tr>
-
             @foreach ($inventories as $inventory)
                 @php
 
@@ -60,11 +59,15 @@
 
                     {{-- 在庫がある時 --}}
                     @if ($inventory->expired_at != '////')
-                        <td><a href="{{ route('inventory.show', ['id' => $inventory->id]) }}">{{ $inventory->name }}</a></td>
+                        <td>
+                            <a href="{{ route('inventory.show', ['id' => $inventory->id]) }}">{{ $inventory->name }}</a>
+                        </td>
+
                     {{-- 在庫がない時 --}}
                     @else
                         <td>{{ $inventory->name }}</td>
                     @endif
+
                     <td>{{ $inventory->category_name }}</td>
                     <td>{{ $inventory->unit_price }}</td>
                     <td>{{ $inventory->lank }}</td>
@@ -73,6 +76,7 @@
                     <td>{{ $limit_count }}</td>
                 </tr>
             @endforeach
+
         </table>
     </div>
 @endsection

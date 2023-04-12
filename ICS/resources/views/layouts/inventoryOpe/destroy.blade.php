@@ -35,7 +35,6 @@
 
                 @foreach ($inventories as $inventory)
                     @php
-
                         // $limited_at $limit_count作成
                         // 在庫がない場合
                         if ($inventory->expired_at == '////'){
@@ -49,12 +48,13 @@
                         };
                     @endphp
 
-                    {{-- 使用期限31日前になった行の色を変える --}}
+                    <!-- 使用期限31日前になった行の色を変える -->
                     @if ($limit_count <= "31")
                         <tr class="tableData limit_alert">
                     @else
                         <tr class="tableData">
                     @endif
+
                         <input class="id" type="hidden" value="{{ $inventory->id }}" />
                         <td class="name">{{ $inventory->name }}</td>
                         <td class="category">{{ $inventory->category_name }}</td>
@@ -66,11 +66,16 @@
                         <td><input class="destroy_choice desBtn{{ $inventory->id }}" type="button" value="選択" /></td>
                     </tr>
                 @endforeach
+
             </table>
             <input id="destroy_submit" type="button" value="削除" />
         </div>
+
+        <!-- 選択した景品の確認欄 -->
         <div id="destroy_field"></div>
     </div>
+
+    <!-- 送信用のフォーム -->
     <form id="destroy_form" method="post" action="{{ route('inventory.destroy') }}">
         @csrf
     </form>

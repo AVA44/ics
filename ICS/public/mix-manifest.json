@@ -5,7 +5,6 @@
     "/css/app.css": "/css/app.css",
     "/js/create.js": "/js/create.js",
     "/js/destroy.js": "/js/destroy.js",
-    "/js/index.js": "/js/index.js",
     "/js/indexAjax.js": "/js/indexAjax.js",
     "/js/useStock.js": "/js/useStock.js",
     "/js/useStockAjax.js": "/js/useStockAjax.js"

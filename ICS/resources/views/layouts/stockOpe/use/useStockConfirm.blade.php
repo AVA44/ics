@@ -21,7 +21,9 @@
             </div>
             <hr />
         @endfor
+
     @else
         <h2>景品使用:なし</h2>
     @endif
+    
 @endsection

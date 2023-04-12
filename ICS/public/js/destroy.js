@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11092,26 +11092,27 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./resources/js/destroy.js":
-/*!*********************************!*\
-  !*** ./resources/js/destroy.js ***!
-  \*********************************/
+/***/ "./resources/js/inventoryOpe/destroy.js":
+/*!**********************************************!*\
+  !*** ./resources/js/inventoryOpe/destroy.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {$(function () {
+  // 選択した景品を表示
   $('.destroy_choice').on('click', function () {
     var id = $(this).closest('td').prevAll('.id').val();
     var name = $(this).closest('td').prevAll('.name').text();
     var category = $(this).closest('td').prevAll('.category').text();
     $('#destroy_field').append('\
-                                    <div class="desFields desField' + id + '">\
-                                        <input class="destroy_id" type="hidden" value="' + id + '" />\
-                                        <p class="destroy_inventory">' + name + ' ' + category + '</p>\
-                                        <input class="destroy_cancel" type="button" value="×" />\
-                                    </div>\
-                                    <hr/>\
-                                ');
+      <div class="desFields desField' + id + '">\
+        <input class="destroy_id" type="hidden" value="' + id + '" />\
+        <p class="destroy_inventory">' + name + ' ' + category + '</p>\
+        <input class="destroy_cancel" type="button" value="×" />\
+      </div>\
+      <hr/>\
+    ');
     $('#destroy_form').append('<input type="hidden" name="destroy[]" value="' + id + '"/>');
 
     // 同じ景品を選択できないようにdisabled:trueを設定
@@ -11129,6 +11130,8 @@ return jQuery;
     // 選択キャンセルした時に景品を選択し直せるようにdisabled:falseを設定
     $('.desBtn' + cancelId).prop('disabled', false);
   });
+
+  // フォーム送信
   $('#destroy_submit').on('click', function () {
     $('#destroy_form').submit();
   });
@@ -11137,14 +11140,14 @@ return jQuery;
 
 /***/ }),
 
-/***/ 5:
-/*!***************************************!*\
-  !*** multi ./resources/js/destroy.js ***!
-  \***************************************/
+/***/ 2:
+/*!****************************************************!*\
+  !*** multi ./resources/js/inventoryOpe/destroy.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/destroy.js */"./resources/js/destroy.js");
+module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/inventoryOpe/destroy.js */"./resources/js/inventoryOpe/destroy.js");
 
 
 /***/ })

@@ -30,6 +30,7 @@
                         @endif
                 </tr>
             @endfor
+
         </table>
 
         <!-- 商品の情報 -->
@@ -63,12 +64,19 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 画像のプレビュー -->
             <div id="preview_field">
+
+                <!-- 画像を登録している時表示 -->
                 @if ($inventory->image_url != "")
                     <img class="show_img_preview" src="data:image/png;base64,{{ $inventory->image_url }}">
+
+                <!-- 登録していない時非表示 -->
                 @else
                     <p>画像なし</p>
                 @endif
+
             </div>
         </div>
     </div>

@@ -15,25 +15,32 @@
 /* !!create.blade.php */
 #create_container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 60%;
   height: 40%;
 }
 
 #create_form {
-  width: 50%;
+  width: 35%;
+}
+
+.create_form_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
 }
 
 .create_label {
   display: inline-block;
-  margin-bottom: 0.6rem;
   width: 5rem;
   text-align-last: justify;
 }
 
 .create_input {
   width: 150px;
-  height: 22px;
+  height: 26px;
 }
 
 #preview {

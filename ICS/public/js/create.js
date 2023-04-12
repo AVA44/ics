@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11092,17 +11092,35 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./resources/js/create.js":
-/*!********************************!*\
-  !*** ./resources/js/create.js ***!
-  \********************************/
+/***/ "./resources/js/inventoryOpe/create.js":
+/*!*********************************************!*\
+  !*** ./resources/js/inventoryOpe/create.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {$(function () {
+  // 新しいカテゴリ名か既存のカテゴリ名か
+  $('#category_name_input').on('change', function () {
+    // 新しい時入力用のBOXを表示
+    if ($(this).val() == 'new_category') {
+      $('#category_input_box').css('display', 'block');
+      $('#category_input_box').addClass('empty_alert');
+
+      // 既存の時非表示
+    } else {
+      $('#category_input_box').css('display', 'none');
+      $('#category_input_box').removeClass('empty_alert');
+    }
+  });
+
+  // 画像プレビュー
   $('#image_url').on('change', function () {
+    // 画像ファイルの選択をキャンセルした時非表示
     if ($(this).val() == '') {
       $('#preview').attr('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+
+      // 画像ファイルが選択された時表示
     } else {
       var obj = $(this).prop('files')[0];
       var fileReader = new FileReader();
@@ -11113,18 +11131,30 @@ return jQuery;
     }
     ;
   });
+
+  // 入力必須な項目の入力確認①
   $('.required').on('change', function () {
     var createInput = $(this).val();
-    if (typeof createInput == 'undifined') {
+
+    // 入力されていなかった時empty_alertクラスを追加
+    if (createInput == '') {
       $(this).closest('.create_form_content').addClass('empty_alert');
+
+      // 入力されていたら削除
     } else {
       $(this).closest('.create_form_content').removeClass('empty_alert');
     }
   });
+
+  // フォーム送信 & 入力必須欄の入力確認②
   $('#create_submit').on('click', function () {
     var emptyAlert = $('.empty_alert').length;
+
+    // 入力必須欄が全て入力されていたらフォーム送信
     if (emptyAlert == '0') {
       $('#create_form').submit();
+
+      // されていなかったらalert表示
     } else {
       alert('入力されていない項目があります！');
     }
@@ -11134,14 +11164,14 @@ return jQuery;
 
 /***/ }),
 
-/***/ 2:
-/*!**************************************!*\
-  !*** multi ./resources/js/create.js ***!
-  \**************************************/
+/***/ 1:
+/*!***************************************************!*\
+  !*** multi ./resources/js/inventoryOpe/create.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/create.js */"./resources/js/create.js");
+module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/inventoryOpe/create.js */"./resources/js/inventoryOpe/create.js");
 
 
 /***/ })

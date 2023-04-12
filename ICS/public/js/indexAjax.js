@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11092,10 +11092,10 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./resources/js/indexAjax.js":
-/*!***********************************!*\
-  !*** ./resources/js/indexAjax.js ***!
-  \***********************************/
+/***/ "./resources/js/ajax/indexAjax.js":
+/*!****************************************!*\
+  !*** ./resources/js/ajax/indexAjax.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11159,14 +11159,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 6:
-/*!*****************************************!*\
-  !*** multi ./resources/js/indexAjax.js ***!
-  \*****************************************/
+/***/ 5:
+/*!**********************************************!*\
+  !*** multi ./resources/js/ajax/indexAjax.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/indexAjax.js */"./resources/js/indexAjax.js");
+module.exports = __webpack_require__(/*! /Users/ishiiseiya/Desktop/programing/original/ICS/resources/js/ajax/indexAjax.js */"./resources/js/ajax/indexAjax.js");
 
 
 /***/ })
